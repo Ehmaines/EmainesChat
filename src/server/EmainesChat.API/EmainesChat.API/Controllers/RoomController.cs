@@ -28,14 +28,14 @@ namespace EmainesChat.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("{id}/detail")]
         public IActionResult GetRoomById(int id) 
         {
             return Ok(_roomService.GetById(id));
         }
 
         [HttpGet]
-        [Route("{name}")]
+        [Route("{name}/search-by-name")]
         public IActionResult GetRoomByName(string name)
         {
             return Ok(_roomService.GetByName(name));

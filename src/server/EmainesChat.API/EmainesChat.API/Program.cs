@@ -4,9 +4,11 @@ using EmainesChat.Business.Commands;
 using static System.Net.Mime.MediaTypeNames;
 using FluentValidation.AspNetCore;
 using FluentValidation;
+using EmainesChat.API.SignalRControllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSignalR();
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -29,8 +31,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<MessageHub>("/messageHub");
+    endpoints.MapControllers();
+});
+
+//app.MapControllers();
 
 app.Run();
