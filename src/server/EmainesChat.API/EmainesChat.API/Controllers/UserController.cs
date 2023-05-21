@@ -1,4 +1,5 @@
-﻿using EmainesChat.Business.Users;
+﻿using EmainesChat.Business.Commands;
+using EmainesChat.Business.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmainesChat.API.Controllers
@@ -18,17 +19,10 @@ namespace EmainesChat.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUser()
+        [Route("")]
+        public async Task<IActionResult> AddUser([FromBody] UserAddCommand command)
         {
-            User user = new User()
-            {
-                UserName = "user",
-                Email = "email",
-                Password = "P@ssw0rd",
-                CreatedAt = DateTime.Now
-            };
-
-            return Ok(await _userService.AddUser(user));
+            return Ok(await _userService.AddUser(command));
         }
     }
 }

@@ -5,7 +5,7 @@ x64/
 build/
 [Bb]in/
 [Oo]bj/
-
+.[Vv]s/
 # Visual Studio files
 *.user
 *.aps
