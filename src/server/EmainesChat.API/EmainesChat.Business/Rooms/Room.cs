@@ -13,5 +13,11 @@ namespace EmainesChat.Business.Rooms
         public DateTime CreatedAt { get; set; }
 
         public Room() { }
+
+        public Room(string name) 
+        { 
+            Name = name;
+            CreatedAt = DateTime.Now;
+        }
     }
 }

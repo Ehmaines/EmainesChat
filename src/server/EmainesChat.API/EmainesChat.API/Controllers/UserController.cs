@@ -36,7 +36,7 @@ namespace EmainesChat.API.Controllers
         [Route("")]
         public async Task<IActionResult> AddUser([FromBody] UserAddCommand command)
         {
-            return Ok(await _userService.CreateUser(command));
+            return Ok(await _userService.Create(command));
         }
     }
 }

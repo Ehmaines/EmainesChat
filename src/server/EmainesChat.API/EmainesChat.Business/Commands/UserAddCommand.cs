@@ -15,9 +15,9 @@ namespace EmainesChat.Business.Commands
         public string Password { get; set; }
     }
 
-    public class UserAddCommandValidador: AbstractValidator<UserAddCommand>
+    public class UserAddCommandValidator: AbstractValidator<UserAddCommand>
     {
-        public UserAddCommandValidador() 
+        public UserAddCommandValidator() 
         {
             RuleFor(p => p.UserName)
                 .NotEmpty()

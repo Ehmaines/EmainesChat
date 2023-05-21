@@ -19,30 +19,21 @@ namespace EmainesChat.Data.UsersRepository
 
         public async Task<bool> Create(User user)
         {
-            using (var context = new DataBaseContext())
-            {
-                context.Users.Add(user);
+            _context.Users.Add(user);
 
-                var result = await context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync();
 
-                return result > 0;
-            };
+            return result > 0;
         }
 
         public List<User> GetAll()
         {
-            using (var context = new DataBaseContext())
-            {
-                return context.Users.ToList();
-            };
+            return _context.Users.ToList();
         }
 
         public User GetById(int id)
         {
-            using (var context = new DataBaseContext())
-            {
-                return context.Users.FirstOrDefault(u => u.Id == id)!;
-            };
+            return _context.Users.FirstOrDefault(u => u.Id == id)!;
         }
     }
 }

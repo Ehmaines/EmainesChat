@@ -12,7 +12,7 @@ namespace EmainesChat.Business.Users
             _userRepository = userRepository;
         }
 
-        public Task<bool> CreateUser(UserAddCommand command)
+        public Task<bool> Create(UserAddCommand command)
         {
            User user = new User(command.UserName, command.Email, command.Password);
 
