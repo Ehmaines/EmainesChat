@@ -1,0 +1,3 @@
+# EmainesChat
+## Ainda em Construção...
+### A ideia é fazer um chat em tempo real com API em .NET, SignalR, entity framework, SQL Server e o Frontend em Angular
