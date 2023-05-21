@@ -8,6 +8,8 @@ namespace EmainesChat.Business.Users
 {
     public interface IUserRepository
     {
-        Task<bool> Add(User user);
+        Task<bool> Create(User user);
+        List<User> GetAll();
+        User GetById(int id);
     }
 }

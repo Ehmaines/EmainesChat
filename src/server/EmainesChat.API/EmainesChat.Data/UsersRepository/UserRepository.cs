@@ -17,7 +17,7 @@ namespace EmainesChat.Data.UsersRepository
             _context = context;
         }
 
-        public async Task<bool> Add(User user)
+        public async Task<bool> Create(User user)
         {
             using (var context = new DataBaseContext())
             {
@@ -26,6 +26,22 @@ namespace EmainesChat.Data.UsersRepository
                 var result = await context.SaveChangesAsync();
 
                 return result > 0;
+            };
+        }
+
+        public List<User> GetAll()
+        {
+            using (var context = new DataBaseContext())
+            {
+                return context.Users.ToList();
+            };
+        }
+
+        public User GetById(int id)
+        {
+            using (var context = new DataBaseContext())
+            {
+                return context.Users.FirstOrDefault(u => u.Id == id)!;
             };
         }
     }

@@ -64,3 +64,6 @@ ClientBin/
 [Ss]tyle[Cc]op.* 
 ~$* 
 *~
+
+/DesignTimeBuild/
+/v17/

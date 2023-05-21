@@ -18,11 +18,25 @@ namespace EmainesChat.API.Controllers
             _userService = userService;
         }
 
+        [HttpGet]
+        [Route("")]
+        public IActionResult GetUser()
+        {
+            return Ok(_userService.GetAll());
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetUserById(int id)
+        {
+            return Ok(_userService.GetById(id));
+        }
+
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> AddUser([FromBody] UserAddCommand command)
         {
-            return Ok(await _userService.AddUser(command));
+            return Ok(await _userService.CreateUser(command));
         }
     }
 }
