@@ -1,0 +1,18 @@
+$background-color: #f1f1f1;
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.rooms {
+    display: flex;
+    flex-direction: column;
+
+    .room {
+        padding: 10px;
+        background-color: lighten($background-color, 10%);
+        margin-bottom: 10px;
+    }
+}

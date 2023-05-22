@@ -1,0 +1,36 @@
+@import './styles/variables.scss';
+
+.main-page {
+    display: flex;
+    height: 100vh;
+
+    ehm-rooms-side-bar {
+        width: 20%;
+        background-color: $primary-color;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+    ehm-chat {
+      height: 100vh;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    // Regras de mídia para telas menores
+    @media (max-width: 768px) {
+        flex-direction: column-reverse;
+
+        .side-bar-rooms {
+            width: 100%;
+            min-height: 200px;
+        }
+
+        .main-chat {
+            flex-grow: 1;
+            min-height: 400px;
+        }
+    }
+}

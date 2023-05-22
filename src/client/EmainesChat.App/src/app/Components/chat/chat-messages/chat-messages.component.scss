@@ -1,0 +1,41 @@
+@import "../../../styles/variables.scss";
+
+.messages {
+    list-style-type: none;
+    padding-left: 10px;
+    margin: 0;
+
+    .message {
+        margin-right: 5px;
+        margin-bottom: 20px;
+        padding-right: 5px;
+        border-radius: 5px;
+        box-shadow: 1px 1px 2px #000;
+
+        .sender-info {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 10px;
+
+            .send-by {
+                font-weight: bold;
+                margin-right: 10px;
+            }
+
+            .send-at {
+                color: $secondary-color;
+            }
+        }
+
+        .message-content {
+            .message-text {
+                margin: 0;
+            }
+        }
+    }
+
+    .sent-by-me {
+      background-color: $primary-color;
+  }
+}

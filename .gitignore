@@ -1,3 +1,17 @@
+# Angular specific
+/node_modules
+/dist
+/dist-out
+/.env
+/.env.*
+/*.env.local
+/.idea
+/.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sw*
+
 # Build results
 [Dd]ebug/
 [Rr]elease/
