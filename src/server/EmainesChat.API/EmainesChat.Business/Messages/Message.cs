@@ -19,5 +19,13 @@ namespace EmainesChat.Business.Messages
         public Room Room { get; set; }
 
         public Message() { }
+
+        public Message(string content, User user, Room room)
+        {
+            Content = content;
+            User = user;
+            Room = room;
+            SentAt = DateTime.Now;
+        }
     }
 }

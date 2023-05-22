@@ -33,6 +33,14 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseCors(builder =>
+{
+    builder.WithOrigins("http://localhost:4200") // Especifique a origem exata do seu aplicativo cliente.
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+           .AllowCredentials(); // Permite credenciais na solicitação.
+});
+
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>

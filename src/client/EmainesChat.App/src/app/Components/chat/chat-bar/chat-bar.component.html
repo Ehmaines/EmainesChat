@@ -1,6 +1,14 @@
 <div class="writing-bar">
-  <form>
-      <input type="text" class="writing-text" />
-      <button class="send-message">Enviar</button>
-  </form>
+    <form>
+        <input
+            id="message"
+            type="text"
+            class="writing-text"
+            ngModel="testee"
+            name="teste"
+        />
+        <button class="send-message" (click)="sendMessage($event)">
+            Enviar
+        </button>
+    </form>
 </div>

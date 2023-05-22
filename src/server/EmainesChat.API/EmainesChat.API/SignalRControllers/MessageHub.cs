@@ -1,12 +1,25 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using EmainesChat.API.Controllers;
+using EmainesChat.Business.Commands;
+using EmainesChat.Business.Messages;
+using EmainesChat.Business.Users;
+using Microsoft.AspNet.SignalR.Messaging;
+using Microsoft.AspNetCore.SignalR;
 
 namespace EmainesChat.API.SignalRControllers
 {
     public class MessageHub : Hub
     {
-        public async Task SendMensagem(string mensagem)
+        private readonly MessageService _messageService;
+
+        public MessageHub(MessageService messageService)
         {
-            await Clients.All.SendAsync("ReceberMensagem", mensagem); // Envia uma mensagem para todos os clientes conectados
+            _messageService = messageService;
+        }
+
+        public async Task CreateMessage(MessageCreateCommand command)
+        {
+            var message = await _messageService.Create(command);
+            await Clients.All.SendAsync("MessageCreated", message);
         }
     }
 }

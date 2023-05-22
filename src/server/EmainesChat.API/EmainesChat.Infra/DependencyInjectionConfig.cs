@@ -1,7 +1,9 @@
 ﻿using EmainesChat.Business.Commands;
+using EmainesChat.Business.Messages;
 using EmainesChat.Business.Rooms;
 using EmainesChat.Business.Users;
 using EmainesChat.Data;
+using EmainesChat.Data.MessagesRepository;
 using EmainesChat.Data.RoomsRepository;
 using EmainesChat.Data.UsersRepository;
 using FluentValidation;
@@ -23,10 +25,15 @@ namespace EmainesChat.Infra
             services.AddScoped<RoomService>();
             services.AddScoped<IRoomRepository, RoomRepository>();
 
+            //Message
+            services.AddScoped<MessageService>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
+
             //Validators
             services.AddTransient<IValidator<UserAddCommand>, UserAddCommandValidator>();
             services.AddTransient<IValidator<RoomCreateCommand>, RoomCreateCommandValidator>();
             services.AddTransient<IValidator<RoomUpdateCommand>, RoomUpdateCommandValidator>();
+            services.AddTransient<IValidator<MessageCreateCommand>, MessageCreateCommandValidator>();
         }
     }
 }
