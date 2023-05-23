@@ -7,7 +7,7 @@ import { RoomsSideBarComponent } from './Components/rooms-side-bar/rooms-side-ba
 import { ChatComponent } from './Components/chat/chat.component';
 import { ChatMessagesComponent } from './Components/chat/chat-messages/chat-messages.component';
 import { ChatBarComponent } from './Components/chat/chat-bar/chat-bar.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -17,12 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         ChatMessagesComponent,
         ChatBarComponent,
     ],
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        BrowserModule,
-        AppRoutingModule,
-    ],
+    imports: [ReactiveFormsModule, BrowserModule, AppRoutingModule],
     providers: [],
     bootstrap: [AppComponent],
 })

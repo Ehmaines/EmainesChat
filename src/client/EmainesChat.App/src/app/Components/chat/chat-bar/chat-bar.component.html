@@ -1,11 +1,11 @@
 <div class="writing-bar">
-    <form>
+    <form ngDefaultControl="form">
         <input
             id="message"
             type="text"
             class="writing-text"
-            ngModel="testee"
-            name="teste"
+            [formControl]="message"
+            name="message"
         />
         <button class="send-message" (click)="sendMessage($event)">
             Enviar

@@ -10,7 +10,7 @@ namespace EmainesChat.Business.Messages
         private readonly IMessageRepository _messageRepository;
         private readonly IUserRepository _userRepository;
 
-        public MessageService(IMessageRepository messageRepository, IUserRepository userRepository ,IRoomRepository roomRepository)
+        public MessageService(IMessageRepository messageRepository, IUserRepository userRepository, IRoomRepository roomRepository)
         {
             _messageRepository = messageRepository;
             _roomRepository = roomRepository;
@@ -25,10 +25,15 @@ namespace EmainesChat.Business.Messages
             Room room = _roomRepository.GetById(command.RoomId);
 
             User user = _userRepository.GetById(command.UserId);
-            
+
             Message message = new Message(command.Content, user, room);
 
             return _messageRepository.Create(message);
+        }
+
+        public List<Message> GetAll()
+        {
+            return _messageRepository.GetAll();
         }
     }
 }
