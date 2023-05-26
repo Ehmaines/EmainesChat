@@ -18,8 +18,15 @@ namespace EmainesChat.API.SignalRControllers
 
         public async Task CreateMessage(MessageCreateCommand command)
         {
-            var message = await _messageService.Create(command);
-            await Clients.All.SendAsync("MessageCreated", message);
+            if (command.Content != null || command.Content != "")
+            {
+                var message = await _messageService.Create(command);
+                await Clients.All.SendAsync("MessageCreated", message);
+            }
+            else 
+            {
+                await Clients.All.SendAsync("MessageCreated", null);
+            }
         }
 
         public async Task GetAllMessages()

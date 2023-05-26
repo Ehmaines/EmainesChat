@@ -8,6 +8,7 @@ import {
 } from '@microsoft/signalr';
 import { Subject as SubjectRxjs } from 'rxjs';
 import { Message } from 'src/app/Interfaces/Messages/message';
+import { HttpClient as AngularHttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root',
@@ -16,12 +17,13 @@ export class ChatMessagesService {
     private hubConnection!: HubConnection;
     public messages: Message[] = [];
     private isConnectionEstablished = false;
+    private readonly apiUrl: string = 'https://localhost:7080/';
 
     private messagesSubject: SubjectRxjs<Message[]> = new SubjectRxjs<
         Message[]
     >();
 
-    constructor() {
+    constructor(private http: AngularHttpClient) {
         this.initializeSignalRConnection();
         this.registerHandlers();
     }
@@ -60,7 +62,7 @@ export class ChatMessagesService {
         this.hubConnection.on('MessageCreated', (message: Message) => {
             this.messages.push(message);
             this.messagesSubject.next(this.messages); //notifica o componente sobre novas mensagens
-            this.getAllMessages();
+            this.getAllMessagesBySignalR();
             console.log(message.content);
         });
 
@@ -83,25 +85,18 @@ export class ChatMessagesService {
         }
     }
 
-    getAllMessages() {
+    getAllMessagesBySignalR() {
         if (this.isConnectionEstablished) {
-            // if (this.hubConnection.state === HubConnectionState.Disconnected) {
-            //     this.hubConnection
-            //         .start()
-            //         .then(() => {
-            //             console.log('Conexão SignalR estabelecida.');
-            //             this.hubConnection.invoke('GetAllMessages', '');
-            //         })
-            //         .catch((error) =>
-            //             console.error('Erro ao iniciar a conexão:', error)
-            //         );
-            // } else if (this.hubConnection.state === HubConnectionState.Connected) {
             this.hubConnection
-                .invoke('GetAllMessages', [])
+                .invoke('GetAllMessages')
                 .catch((error) =>
                     console.error('Erro ao iniciar a conexão:', error)
                 );
         }
+    }
+
+    getAllMessagesByDataBase() {
+        return this.http.get<Message[]>(this.apiUrl + 'message');
     }
 
     getMessagesSubject(): SubjectRxjs<Message[]> {

@@ -2,7 +2,7 @@
 
 .main-page {
     display: flex;
-    height: 100vh;
+    height: 100%;
 
     ehm-rooms-side-bar {
         width: 20%;
@@ -11,8 +11,8 @@
         display: flex;
         flex-direction: column;
     }
+
     ehm-chat {
-      height: 100vh;
         flex-grow: 1;
         display: flex;
         flex-direction: column;

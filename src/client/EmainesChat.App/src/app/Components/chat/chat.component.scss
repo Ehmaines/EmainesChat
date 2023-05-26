@@ -3,9 +3,10 @@
 ehm-chat-messages {
     flex-grow: 1;
     padding: 20px;
-    overflow-y: auto;
 }
-
+.main-chat{
+    padding-bottom: 15px;
+}
 ehm-chat-bar {
     padding: 5px;
     display: flex;

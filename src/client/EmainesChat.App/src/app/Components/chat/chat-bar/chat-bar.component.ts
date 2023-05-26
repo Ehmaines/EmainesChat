@@ -28,6 +28,7 @@ export class ChatBarComponent implements OnInit {
 
             var messageToSend: Message = {
             content: this.content,
+            sentAt:new Date(),
         };
         this.chatMessageService.sendMessage(messageToSend);
 

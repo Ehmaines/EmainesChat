@@ -1,13 +1,23 @@
 @import "../../../styles/variables.scss";
 
+
+.container{
+    overflow: auto;
+    margin-bottom: 5px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
 .messages {
     list-style-type: none;
     padding-left: 10px;
     margin: 0;
+    max-height: calc(100vh - 8em);
+
 
     .message {
         margin-right: 5px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         padding-right: 5px;
         border-radius: 5px;
         box-shadow: 1px 1px 2px #000;
@@ -27,7 +37,7 @@
                 color: $secondary-color;
             }
         }
-
+        
         .message-content {
             .message-text {
                 margin: 0;
@@ -37,5 +47,16 @@
 
     .sent-by-me {
       background-color: $primary-color;
+  }
+
+}
+@media (min-width: 2600px) {
+  .messages {
+    max-height: calc(100vh);
+  }
+
+  .main-chat {
+      flex-grow: 1;
+      min-height: 400px;
   }
 }
