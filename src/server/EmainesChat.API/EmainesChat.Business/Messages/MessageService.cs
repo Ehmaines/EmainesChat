@@ -19,12 +19,9 @@ namespace EmainesChat.Business.Messages
 
         public Task<Message> Create(MessageCreateCommand command)
         {
-            command.RoomId = 4;
-            command.UserId = 11;
+            Room room = _roomRepository.GetByName(command.Room.Name);
 
-            Room room = _roomRepository.GetById(command.RoomId);
-
-            User user = _userRepository.GetById(command.UserId);
+            User user = _userRepository.GetByEmail(command.User.Email);
 
             Message message = new Message(command.Content, user, room);
 
