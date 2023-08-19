@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +10,7 @@ import { ChatMessagesComponent } from './Components/chat/chat-messages/chat-mess
 import { ChatBarComponent } from './Components/chat/chat-bar/chat-bar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from './Components/home/home.component';
 
 @NgModule({
     declarations: [
@@ -17,12 +19,14 @@ import { HttpClientModule } from '@angular/common/http';
         ChatComponent,
         ChatMessagesComponent,
         ChatBarComponent,
+        HomeComponent,
     ],
     imports: [
         ReactiveFormsModule,
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
+        RouterModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

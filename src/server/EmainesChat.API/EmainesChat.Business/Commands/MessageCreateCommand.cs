@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using EmainesChat.Business.Rooms;
+using EmainesChat.Business.Users;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +12,8 @@ namespace EmainesChat.Business.Commands
     public class MessageCreateCommand
     {
         public string Content { get; set; }
-        public int UserId { get; set; }
-        public int RoomId { get; set; }
+        public User User { get; set; }
+        public Room Room { get; set; }
     }
     public class MessageCreateCommandValidator : AbstractValidator<MessageCreateCommand>
     {

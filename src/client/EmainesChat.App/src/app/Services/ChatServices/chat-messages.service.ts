@@ -76,6 +76,7 @@ export class ChatMessagesService {
     }
 
     sendMessage(message: Message) {
+        debugger;
         if (this.isConnectionEstablished) {
             this.hubConnection
                 .invoke('CreateMessage', message)

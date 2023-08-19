@@ -11,5 +11,6 @@ namespace EmainesChat.Business.Users
         Task<bool> Create(User user);
         List<User> GetAll();
         User GetById(int id);
+        User GetByEmail(string email);
     }
 }

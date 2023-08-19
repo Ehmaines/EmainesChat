@@ -1,4 +1,5 @@
 ﻿using EmainesChat.Business.Messages;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +23,13 @@ namespace EmainesChat.Data.MessagesRepository
 
             var result = await _context.SaveChangesAsync();
 
-            var teste = _context.Messages.FirstOrDefault(m => m.Id == message.Id);
-            return teste!;
+            return _context.Messages.FirstOrDefault(m => m.Id == message.Id)!;
         }
 
         public List<Message> GetAll()
         {
-            return _context.Messages.ToList();
+            var messages = _context.Messages.Include(r => r.Room).Include(u => u.User).ToList();
+            return messages;
         }
     }
 }

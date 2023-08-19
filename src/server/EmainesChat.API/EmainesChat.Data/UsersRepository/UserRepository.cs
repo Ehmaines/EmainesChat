@@ -35,5 +35,10 @@ namespace EmainesChat.Data.UsersRepository
         {
             return _context.Users.FirstOrDefault(u => u.Id == id)!;
         }
+
+        public User GetByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email)!;
+        }
     }
 }

@@ -1,12 +1,4 @@
-import {
-    AfterContentInit,
-    AfterViewChecked,
-    AfterViewInit,
-    Component,
-    ElementRef,
-    OnInit,
-    ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HubConnection, HubConnectionState } from '@microsoft/signalr';
 import { Message } from 'src/app/Interfaces/Messages/message';
 import { ChatMessagesService } from 'src/app/Services/ChatServices/chat-messages.service';
@@ -34,12 +26,12 @@ export class ChatMessagesComponent implements OnInit {
         this.chatMessagesService
             .getAllMessagesByDataBase()
             .subscribe((response) => {
-              this.Allmessages = response;
+                this.Allmessages = response;
             });
 
         this.messagesSubject = this.chatMessagesService.getMessagesSubject();
         this.messagesSubject.subscribe((messages: Message[]) => {
-            this.Allmessages = messages; // Atualizar a propriedade Allmessages quando novas mensagens forem recebidas
+            this.Allmessages = messages; // Atualiza a propriedade Allmessages quando novas mensagens forem recebidas
         });
 
         const connection = this.chatMessagesService.getSignalRConnection();

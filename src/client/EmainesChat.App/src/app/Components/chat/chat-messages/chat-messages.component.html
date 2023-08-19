@@ -9,9 +9,9 @@
                 <p class="message-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi, optio aliquid. Quidem, nihil praesentium. Quis, accusantium. Illum odit provident voluptate harum eius fuga, accusamus laborum ex magni molestiae reiciendis dolor.</p>
             </div>
         </li>
-        <li #messagesList class="message" *ngFor="let message of Allmessages">
+        <li #messagesList class="message" *ngFor="let message of Allmessages" [ngClass]="{'sent-by-me': message.user.userName == 'Felipe'}">
             <div class="sender-info">
-                <div class="send-by">Felipe</div>
+                <div class="send-by">{{message.user.userName}}</div>
                 <div class="send-at">{{message.sentAt | date:'dd/MM/yyyy HH:mm'}}</div>
             </div>
             <div class="message-content">

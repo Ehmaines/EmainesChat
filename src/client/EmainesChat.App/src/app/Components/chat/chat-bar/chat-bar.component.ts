@@ -1,7 +1,6 @@
+import { User } from './../../../Interfaces/Users/user';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-
-
 
 import { Message } from 'src/app/Interfaces/Messages/message';
 import { ChatMessagesService } from 'src/app/Services/ChatServices/chat-messages.service';
@@ -15,10 +14,8 @@ export class ChatBarComponent implements OnInit {
     content: string = '';
     constructor(private chatMessageService: ChatMessagesService) {}
     message = new FormControl('');
-    ngOnInit(): void {
-      console.log(this.message.value)
 
-    }
+    ngOnInit(): void { }
 
     sendMessage(event: Event): void {
         event.preventDefault();
@@ -26,12 +23,17 @@ export class ChatBarComponent implements OnInit {
             ? (this.content = '')
             : (this.content = this.message.value);
 
-            var messageToSend: Message = {
+        var messageToSend: Message = {
             content: this.content,
-            sentAt:new Date(),
+            sentAt: new Date(),
+            user: {
+                userName: 'Felipe',
+                email: 'email@email.com',
+                password: '',
+            },
+            room: { name: 'Divinity', createdAt: new Date() },
         };
         this.chatMessageService.sendMessage(messageToSend);
-
         this.message.setValue('');
     }
 }
