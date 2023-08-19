@@ -31,5 +31,11 @@ namespace EmainesChat.Data.MessagesRepository
             var messages = _context.Messages.Include(r => r.Room).Include(u => u.User).ToList();
             return messages;
         }
+
+        public List<Message> GetByRoomId(int roomId)
+        {
+            var messages = _context.Messages.Include(r => r.Room).Include(u => u.User).Where(r => r.Room.Id == roomId).ToList();
+            return messages;
+        }
     }
 }

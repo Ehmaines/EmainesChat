@@ -29,6 +29,12 @@ namespace EmainesChat.API.SignalRControllers
             }
         }
 
+        public async Task GetMessagesByRoomId(MessageGetByRoomIdCommand command)
+        {
+            var message = _messageService.GetByRoomId(command.roomId);
+            await Clients.All.SendAsync("ReciveMessageByRoomId", message);
+        }
+
         public async Task GetAllMessages()
         {
             //Não está chamando aqui

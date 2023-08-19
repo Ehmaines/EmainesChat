@@ -11,5 +11,6 @@ namespace EmainesChat.Business.Messages
     {
         Task<Message> Create(Message message);
         List<Message> GetAll();
+        List<Message> GetByRoomId(int id);
     }
 }

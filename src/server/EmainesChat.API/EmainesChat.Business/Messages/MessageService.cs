@@ -32,5 +32,10 @@ namespace EmainesChat.Business.Messages
         {
             return _messageRepository.GetAll();
         }
+
+        public List<Message> GetByRoomId(int roomId)
+        {
+            return _messageRepository.GetByRoomId(roomId);
+        }
     }
 }

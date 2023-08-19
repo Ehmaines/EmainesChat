@@ -24,5 +24,12 @@ namespace EmainesChat.API.Controllers
         {
             return Ok(_messageService.GetAll());
         }
+
+        [HttpGet]
+        [Route("{roomId}")]
+        public IActionResult GetMessagesByRoomId(int roomId)
+        {
+            return Ok(_messageService.GetByRoomId(roomId));
+        }
     }
 }

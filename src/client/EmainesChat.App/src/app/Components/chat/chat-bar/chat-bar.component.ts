@@ -1,9 +1,12 @@
+import { ActivatedRoute } from '@angular/router';
+import { RoomService } from 'src/app/Services/RoomServices/room.service';
 import { User } from './../../../Interfaces/Users/user';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { Message } from 'src/app/Interfaces/Messages/message';
 import { ChatMessagesService } from 'src/app/Services/ChatServices/chat-messages.service';
+import { Room } from 'src/app/Interfaces/room';
 
 @Component({
     selector: 'ehm-chat-bar',
@@ -12,10 +15,20 @@ import { ChatMessagesService } from 'src/app/Services/ChatServices/chat-messages
 })
 export class ChatBarComponent implements OnInit {
     content: string = '';
-    constructor(private chatMessageService: ChatMessagesService) {}
     message = new FormControl('');
+    roomId: number = 0;
+    actualRoom: Room = {name:'', createdAt: new Date(), id: 0};
 
-    ngOnInit(): void { }
+    constructor(private chatMessageService: ChatMessagesService, private roomService: RoomService, private route: ActivatedRoute) {}
+
+    ngOnInit(): void {
+        this.route.params.subscribe((params) => {
+            this.roomId = params['id'];
+        });
+        this.roomService.getRoomById(this.roomId).subscribe((result) => {
+            this.actualRoom = result;
+        });
+    }
 
     sendMessage(event: Event): void {
         event.preventDefault();
@@ -28,10 +41,10 @@ export class ChatBarComponent implements OnInit {
             sentAt: new Date(),
             user: {
                 userName: 'Felipe',
-                email: 'email@email.com',
+                email: 'felipemaines123@gmail.com',
                 password: '',
             },
-            room: { name: 'Divinity', createdAt: new Date() },
+            room: { name: this.actualRoom?.name, createdAt: new Date() },
         };
         this.chatMessageService.sendMessage(messageToSend);
         this.message.setValue('');

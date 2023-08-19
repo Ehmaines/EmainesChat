@@ -73,6 +73,14 @@ export class ChatMessagesService {
                 this.messagesSubject.next(this.messages); //notifica o componente sobre novas mensagens
             }
         );
+
+        this.hubConnection.on(
+            'ReciveMessageByRoomId',
+            (Recivedmessage: Message[]) => {
+                this.messages = Recivedmessage;
+                this.messagesSubject.next(this.messages); //notifica o componente sobre novas mensagens
+            }
+        );
     }
 
     sendMessage(message: Message) {
@@ -96,8 +104,23 @@ export class ChatMessagesService {
         }
     }
 
+    getMessagesByRoomIdInSignalR(roomId: number) {
+        if (this.isConnectionEstablished) {
+            this.hubConnection
+                .invoke('GetMessagesByRoomId', roomId)
+                .catch((error) =>
+                    console.error('Erro ao iniciar a conexão:', error)
+                );
+        }
+    }
+
     getAllMessagesByDataBase() {
         return this.http.get<Message[]>(this.apiUrl + 'message');
+    }
+
+    getMessagesByRoom(roomId: Number) {
+        console.log(`procurando mensagens pela sala ${roomId}`)
+        return this.http.get<Message[]>(this.apiUrl + `message/${roomId}`);
     }
 
     getMessagesSubject(): SubjectRxjs<Message[]> {
