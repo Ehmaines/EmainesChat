@@ -22,16 +22,12 @@ export class ChatBarComponent implements OnInit {
     constructor(private chatMessageService: ChatMessagesService, private roomService: RoomService, private route: ActivatedRoute) {}
 
     ngOnInit(): void {
-        this.route.params.subscribe((params) => {
-            this.roomId = params['id'];
-        });
-        this.roomService.getRoomById(this.roomId).subscribe((result) => {
-            this.actualRoom = result;
-        });
+        this.getActualRoom()
     }
 
     sendMessage(event: Event): void {
         event.preventDefault();
+        this.getActualRoom();
         this.message.value == null
             ? (this.content = '')
             : (this.content = this.message.value);
@@ -44,9 +40,18 @@ export class ChatBarComponent implements OnInit {
                 email: 'felipemaines123@gmail.com',
                 password: '',
             },
-            room: { name: this.actualRoom?.name, createdAt: new Date() },
+            room: { name: this.actualRoom?.name, createdAt: this.actualRoom.createdAt, id: this.actualRoom?.id },
         };
         this.chatMessageService.sendMessage(messageToSend);
         this.message.setValue('');
+    }
+
+    getActualRoom(){
+        this.route.params.subscribe((params) => {
+            this.roomId = parseInt(params['id']);
+            this.roomService.getRoomById(this.roomId).subscribe((result) => {
+                this.actualRoom = result;
+            });
+        });
     }
 }

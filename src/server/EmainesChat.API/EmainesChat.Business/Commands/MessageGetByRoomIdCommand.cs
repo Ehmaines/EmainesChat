@@ -17,9 +17,9 @@ namespace EmainesChat.Business.Commands
     {
         public MessageGetByRoomIdCommandValidator()
         {
-            RuleFor(p => p.roomId)
-                .GreaterThan(0)
-                .NotEmpty();
+            //RuleFor(p => p.roomId)
+            //    .GreaterThan(0)
+            //    .NotEmpty();
         }
     }
 }

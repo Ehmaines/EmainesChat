@@ -28,7 +28,7 @@ namespace EmainesChat.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/detail")]
+        [Route("{id}")]
         public IActionResult GetRoomById(int id) 
         {
             return Ok(_roomService.GetById(id));

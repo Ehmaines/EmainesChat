@@ -7,12 +7,8 @@ const routes: Routes = [
   { path: 'room/:id', component: HomeComponent }
 ];
 
-const routerOptions: ExtraOptions = {
-  onSameUrlNavigation: 'reload' // Isso fará com que o componente seja recarregado ao mesmo URL
-};
-
 @NgModule({
-  imports: [RouterModule.forRoot(routes, routerOptions)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

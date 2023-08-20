@@ -34,6 +34,7 @@ namespace EmainesChat.Infra
             services.AddTransient<IValidator<RoomCreateCommand>, RoomCreateCommandValidator>();
             services.AddTransient<IValidator<RoomUpdateCommand>, RoomUpdateCommandValidator>();
             services.AddTransient<IValidator<MessageCreateCommand>, MessageCreateCommandValidator>();
+            services.AddTransient<IValidator<MessageGetByRoomIdCommand>, MessageGetByRoomIdCommandValidator>();
         }
     }
 }
