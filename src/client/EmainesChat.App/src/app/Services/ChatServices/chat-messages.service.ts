@@ -1,3 +1,4 @@
+import { Room } from 'src/app/Interfaces/room';
 import { User } from './../../Interfaces/Users/user';
 import { Injectable } from '@angular/core';
 import {
@@ -62,7 +63,7 @@ export class ChatMessagesService {
         this.hubConnection.on('MessageCreated', (message: Message) => {
             this.messages.push(message);
             this.messagesSubject.next(this.messages); //notifica o componente sobre novas mensagens
-            this.getAllMessagesBySignalR();
+            this.getMessagesByRoomIdInSignalR(message.room.id);
             console.log(message.content);
         });
 
@@ -84,7 +85,6 @@ export class ChatMessagesService {
     }
 
     sendMessage(message: Message) {
-        debugger;
         if (this.isConnectionEstablished) {
             this.hubConnection
                 .invoke('CreateMessage', message)
