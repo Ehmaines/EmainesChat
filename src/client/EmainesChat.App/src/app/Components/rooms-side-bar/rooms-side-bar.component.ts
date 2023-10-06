@@ -11,13 +11,16 @@ import { RoomService } from 'src/app/Services/RoomServices/room.service';
 
 export class RoomsSideBarComponent implements OnInit {
   allRooms: Room[] = [];
-
-  constructor(private roomService: RoomService, private router: Router){}
+  activeRoomId: Number = 0;
+  constructor(private roomService: RoomService, private router: Router, private route: ActivatedRoute){}
 
   ngOnInit(): void {
     this.roomService.getAllRooms().subscribe((response) => {
       console.log(response);
       this.allRooms = response;
+      this.route.params.subscribe(params => {
+        this.activeRoomId = params['id'];
+      });
     });
   }
 
