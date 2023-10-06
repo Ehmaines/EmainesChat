@@ -1,5 +1,6 @@
-$background-color: #f1f1f1;
+@import "../../styles/variables.scss";
 
+$background-color: #f1f1f1;
 .title {
     font-size: 20px;
     font-weight: bold;
@@ -7,7 +8,7 @@ $background-color: #f1f1f1;
 }
 
 .rooms {
-    position: sticky;  
+    position: sticky;
     display: flex;
     flex-direction: column;
 
@@ -15,5 +16,13 @@ $background-color: #f1f1f1;
         padding: 10px;
         background-color: lighten($background-color, 10%);
         margin-bottom: 10px;
+        border-radius: 1.5em;
+        box-shadow: 2px 2px 1px 1px $secondary-color;
+    }
+
+    .selectedRoom {
+        background-color: $secondary-color;
+        box-shadow: 2px 2px 1px 1px rgb(60, 75, 63);
+        color: $background-color;
     }
 }

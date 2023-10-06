@@ -1,7 +1,7 @@
 <div class="side-bar-rooms">
   <div class="title">Chats</div>
   <div class="rooms">
-      <div class="room" #roomsList *ngFor="let room of allRooms" (click)="changeRoom(room.id)">
+      <div class="room" #roomsList *ngFor="let room of allRooms" (click)="changeRoom(room.id)" [ngClass]="{'selectedRoom' : room.id == activeRoomId}" >
           <span>{{room.name}}</span>
       </div>
   </div>

@@ -2,8 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HubConnection, HubConnectionState } from '@microsoft/signalr';
 import { Message } from 'src/app/Interfaces/Messages/message';
 import { ChatMessagesService } from 'src/app/Services/ChatServices/chat-messages.service';
-import { Subject, takeUntil } from 'rxjs';
-import { FormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { RoomService } from 'src/app/Services/RoomServices/room.service';
 
