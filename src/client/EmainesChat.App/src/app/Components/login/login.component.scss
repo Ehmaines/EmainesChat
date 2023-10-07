@@ -1,0 +1,41 @@
+@import "../../styles/variables.scss";
+
+body {
+    background-color: $background-color;
+}
+
+.card {
+    width: 500px;
+    margin: 0 auto;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: $primary-color;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.card-title {
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.btn {
+    width: 100%;
+    background-color: darken($primary-color, 30%);
+    color: #fff;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+}

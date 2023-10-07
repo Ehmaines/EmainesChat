@@ -11,6 +11,7 @@ import { ChatBarComponent } from './Components/chat/chat-bar/chat-bar.component'
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './Components/home/home.component';
+import { LoginModule } from './Components/login/login.module';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import { HomeComponent } from './Components/home/home.component';
         AppRoutingModule,
         HttpClientModule,
         RouterModule,
+        LoginModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
