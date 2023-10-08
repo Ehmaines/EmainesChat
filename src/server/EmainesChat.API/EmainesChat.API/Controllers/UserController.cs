@@ -1,5 +1,7 @@
 ﻿using EmainesChat.Business.Commands;
+using EmainesChat.Business.Helpers.Enums;
 using EmainesChat.Business.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmainesChat.API.Controllers
@@ -19,6 +21,7 @@ namespace EmainesChat.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [Route("")]
         public IActionResult GetUser()
         {
@@ -26,6 +29,7 @@ namespace EmainesChat.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [Route("{id}")]
         public IActionResult GetUserById(int id)
         {
@@ -33,6 +37,7 @@ namespace EmainesChat.API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("")]
         public async Task<IActionResult> AddUser([FromBody] UserAddCommand command)
         {

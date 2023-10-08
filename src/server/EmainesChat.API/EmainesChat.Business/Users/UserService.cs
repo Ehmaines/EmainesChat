@@ -1,5 +1,6 @@
 ﻿
 using EmainesChat.Business.Commands;
+using EmainesChat.Business.Helpers.Enums;
 
 namespace EmainesChat.Business.Users
 {
@@ -14,7 +15,7 @@ namespace EmainesChat.Business.Users
 
         public Task<bool> Create(UserAddCommand command)
         {
-           User user = new User(command.UserName, command.Email, command.Password);
+           User user = new User(command.UserName, command.Email, command.Password, Roles.User);
 
             //TODO: mais para frente verificar se Email já foi ultilizado
 
@@ -29,6 +30,11 @@ namespace EmainesChat.Business.Users
         public User GetById(int id)
         {
             return _userRepository.GetById(id);
+        }
+
+        public User GetByEmailAndPassword(string email, string password) 
+        {
+            return _userRepository.GetByEmailAndPassword(email, password);
         }
     }
 }

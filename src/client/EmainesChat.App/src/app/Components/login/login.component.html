@@ -1,0 +1,43 @@
+<img class="bg-image" src="../../../assets/background.jpg" />
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Emaines Chat</h3>
+                    <form ngDefaultControl="form">
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                [formControl]="email"
+                                name="email"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Senha</label>
+                            <input
+                                [formControl]="password"
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                            />
+                        </div>
+                        <button (click)="login($event)" class="btn btn-primary">
+                            Entrar
+                        </button>
+                        <div
+                            id="error-message"
+                            class="error-message"
+                            *ngIf="showErrorMessage">
+                            <span>Usuário ou senha incorretos</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
