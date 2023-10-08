@@ -4,6 +4,8 @@ using EmainesChat.Business.Rooms;
 using EmainesChat.Business.Token;
 using EmainesChat.Business.Users;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace EmainesChat.API.Controllers
 {
@@ -31,7 +33,7 @@ namespace EmainesChat.API.Controllers
                 return NotFound(new {message = "Usuário ou senha inválidos"});
             }
             
-            return Ok(token);
+            return Ok(JsonConvert.SerializeObject(token));
         }
     }
 }

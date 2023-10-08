@@ -16,7 +16,6 @@ export class RoomsSideBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.roomService.getAllRooms().subscribe((response) => {
-      console.log(response);
       this.allRooms = response;
       this.route.params.subscribe(params => {
         this.activeRoomId = params['id'];

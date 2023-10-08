@@ -64,7 +64,6 @@ export class ChatMessagesService {
             this.messages.push(message);
             this.messagesSubject.next(this.messages); //notifica o componente sobre novas mensagens
             this.getMessagesByRoomIdInSignalR(message.room.id);
-            console.log(message.content);
         });
 
         this.hubConnection.on(

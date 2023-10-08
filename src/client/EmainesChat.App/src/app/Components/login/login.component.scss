@@ -1,13 +1,18 @@
 @import "../../styles/variables.scss";
 
-body {
-    background-color: $background-color;
+.bg-image {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+    filter: blur(10px);
 }
 
 .card {
-    width: 500px;
-    margin: 0 auto;
-    padding: 15px;
+    filter: none;
+    overflow: 1;
     border-radius: 5px;
     background-color: $primary-color;
 
@@ -27,7 +32,6 @@ body {
 
 .form-control {
     width: 100%;
-    padding: 10px;
     border-radius: 3px;
 }
 
@@ -38,4 +42,8 @@ body {
     border: 0;
     border-radius: 3px;
     cursor: pointer;
+}
+
+.error-messsage{
+    color: rgb(184, 70, 70);
 }
