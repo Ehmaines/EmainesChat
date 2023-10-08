@@ -1,4 +1,6 @@
-﻿namespace EmainesChat.Business.Users
+﻿using EmainesChat.Business.Helpers.Enums;
+
+namespace EmainesChat.Business.Users
 {
     public class User
     {
@@ -6,11 +8,12 @@
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public Roles Role { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public User() { }
 
-        public User(string userName, string email, string password)
+        public User(string userName, string email, string password, Roles role)
         {
             UserName = userName;
             Email = email;

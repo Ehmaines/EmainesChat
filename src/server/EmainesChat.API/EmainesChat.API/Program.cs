@@ -5,6 +5,11 @@ using static System.Net.Mime.MediaTypeNames;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using EmainesChat.API.SignalRControllers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using EmainesChat.Business;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Routing.Tree;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +21,27 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var services = builder.Services;
 
+
 services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+
+var key = Encoding.ASCII.GetBytes(Settings.Secret);
+
+services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+  {
+      options.RequireHttpsMetadata = false;
+      options.SaveToken = true;
+      options.TokenValidationParameters = new TokenValidationParameters
+      {
+          ValidateIssuerSigningKey = true,
+          IssuerSigningKey = new SymmetricSecurityKey(key),
+          ValidateIssuer = false,
+          ValidateAudience = false
+      };
+  });
 
 DependencyInjectionConfig.Configure(services);
 
@@ -41,6 +66,7 @@ app.UseCors(builder =>
            .AllowCredentials(); // Permite credenciais na solicitação.
 });
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>

@@ -12,5 +12,6 @@ namespace EmainesChat.Business.Users
         List<User> GetAll();
         User GetById(int id);
         User GetByEmail(string email);
+        User GetByEmailAndPassword(string email, string password);
     }
 }
