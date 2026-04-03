@@ -28,9 +28,9 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private authService: AuthService,
         private authTokenService: AuthTokenService
-    ) {}
+    ) { }
 
-    ngOnInit(): void {}
+    ngOnInit(): void { }
 
     public ngOnDestroy(): void {
         this.ngUnsubscribe.next();
@@ -48,7 +48,6 @@ export class LoginComponent implements OnInit {
             .login(this.loginData)
             .subscribe({
                 next: (): void => {
-                  debugger;
                     this.showErrorMessage = false
                     // tslint:disable-next-line:no-bitwise
                     const isAdmin: boolean = !!(
@@ -56,9 +55,11 @@ export class LoginComponent implements OnInit {
                         Roles.Admin
                     );
 
+                    this.router.navigate(['room/1'])
+
                 },
                 error: (reason: any): void => {
-                  debugger;
+                    console.log(reason)
                     this.showErrorMessage = true;
                 },
             });

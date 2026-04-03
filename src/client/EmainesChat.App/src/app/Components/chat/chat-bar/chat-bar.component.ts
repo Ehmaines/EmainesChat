@@ -7,6 +7,7 @@ import { FormControl } from '@angular/forms';
 import { Message } from 'src/app/Interfaces/Messages/message';
 import { ChatMessagesService } from 'src/app/Services/ChatServices/chat-messages.service';
 import { Room } from 'src/app/Interfaces/room';
+import { AuthTokenService } from 'src/app/core/authentication/auth-token.service';
 
 @Component({
     selector: 'ehm-chat-bar',
@@ -17,9 +18,14 @@ export class ChatBarComponent implements OnInit {
     content: string = '';
     message = new FormControl('');
     roomId: number = 0;
-    actualRoom: Room = {name:'', createdAt: new Date(), id: 0};
+    actualRoom: Room = { name: '', createdAt: new Date(), id: 0 };
 
-    constructor(private chatMessageService: ChatMessagesService, private roomService: RoomService, private route: ActivatedRoute) {}
+    constructor(
+        private chatMessageService: ChatMessagesService,
+        private roomService: RoomService,
+        private route: ActivatedRoute,
+        private authTokenService: AuthTokenService
+    ) { }
 
     ngOnInit(): void {
         this.getActualRoom()
@@ -36,17 +42,18 @@ export class ChatBarComponent implements OnInit {
             content: this.content,
             sentAt: new Date(),
             user: {
-                userName: 'Felipe',
-                email: 'felipemaines123@gmail.com',
+                userName: this.authTokenService.token.name,
+                email: this.authTokenService.token.email,
                 password: '',
             },
-            room: { name: this.actualRoom?.name, createdAt: this.actualRoom.createdAt, id: this.actualRoom?.id },
+            room: { name: this.actualRoom?.name, createdAt: this.actualRoom?.createdAt, id: this.actualRoom?.id },
         };
+        console.log(messageToSend)
         this.chatMessageService.sendMessage(messageToSend);
         this.message.setValue('');
     }
 
-    getActualRoom(){
+    getActualRoom() {
         this.route.params.subscribe((params) => {
             this.roomId = parseInt(params['id']);
             this.roomService.getRoomById(this.roomId).subscribe((result) => {

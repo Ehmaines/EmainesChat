@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthTokenService } from './auth-token.service';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
@@ -28,7 +28,15 @@ export class AuthService {
         private http: HttpClient,
         private authTokenService: AuthTokenService,
         private router: Router
-    ) {}
+    ) { }
+
+    public isAuthenticated(): Observable<boolean> {
+        return this.http.get<{ isAuthenticated: boolean }>(`${this.apiUrl}login/isAuthenticated`, {})
+            .pipe(
+                map(response => response.isAuthenticated),
+                catchError(() => of(false))
+            );
+    }
 
     public login(data: IAuthentication): Observable<void> {
         // tslint:disable-next-line:prefer-template
@@ -36,17 +44,22 @@ export class AuthService {
             .post(`${this.apiUrl}login`, data, { headers: this.httpHeaders })
             .pipe(
                 tap((response: any) => {
-                    debugger;
-                    console.log(response)
-                    this.handleAuthToken(true, response);
+                    const token = typeof response === 'string'
+                        ? response
+                        : response?.token ?? response?.Token ?? '';
+                    this.handleAuthToken(true, token);
                 })
             );
     }
+    private handleAuthToken(loggedIn: boolean, responseOrToken: any): void {
+        const token = typeof responseOrToken === 'string'
+            ? responseOrToken
+            : responseOrToken?.token ?? responseOrToken?.Token ?? '';
 
-    private handleAuthToken(loggedIn: boolean, token: string): void {
         this.loggedIn = loggedIn;
-        if (loggedIn) {
+        if (loggedIn && token) {
             this.authTokenService.generateToken(token);
+            this.authTokenService.SaveTokenInCookies();
         } else {
             this.authTokenService.resetToken();
         }

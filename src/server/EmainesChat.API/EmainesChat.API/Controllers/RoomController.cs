@@ -1,58 +1,55 @@
-﻿using EmainesChat.Business.Commands;
-using EmainesChat.Business.Rooms;
-using EmainesChat.Business.Users;
+using EmainesChat.Application.Rooms.Commands.CreateRoom;
+using EmainesChat.Application.Rooms.Commands.UpdateRoom;
+using EmainesChat.Application.Rooms.Queries.GetAllRooms;
+using EmainesChat.Application.Rooms.Queries.GetRoomById;
+using EmainesChat.Application.Rooms.Queries.GetRoomByName;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EmainesChat.API.Controllers
+namespace EmainesChat.API.Controllers;
+
+[ApiController]
+[Route("Room")]
+[Authorize]
+public class RoomController : ControllerBase
 {
-    [ApiController]
-    [Route("Room")]
-    public class RoomController : Controller
+    private readonly ISender _sender;
+
+    public RoomController(ISender sender) => _sender = sender;
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllRooms()
     {
+        var result = await _sender.Send(new GetAllRoomsQuery());
+        return Ok(result);
+    }
 
-        private readonly RoomService _roomService;
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetRoomById(int id)
+    {
+        var result = await _sender.Send(new GetRoomByIdQuery(id));
+        return result.IsSuccess ? Ok(result.Value) : NotFound(new { message = result.Error });
+    }
 
-        private readonly ILogger<UserController> _logger;
+    [HttpGet("{name}/search-by-name")]
+    public async Task<IActionResult> GetRoomByName(string name)
+    {
+        var result = await _sender.Send(new GetRoomByNameQuery(name));
+        return result.IsSuccess ? Ok(result.Value) : NotFound(new { message = result.Error });
+    }
 
-        public RoomController(ILogger<UserController> logger, RoomService roomService)
-        {
-            _logger = logger;
-            _roomService = roomService;
-        }
+    [HttpPost]
+    public async Task<IActionResult> CreateRoom([FromBody] CreateRoomCommand command)
+    {
+        var result = await _sender.Send(command);
+        return result.IsSuccess ? Ok(result.Value) : BadRequest(new { message = result.Error });
+    }
 
-        [HttpGet]
-        [Route("")]
-        public IActionResult GetAllRooms()
-        {
-            return Ok(_roomService.GetAll());
-        }
-
-        [HttpGet]
-        [Route("{id}")]
-        public IActionResult GetRoomById(int id) 
-        {
-            return Ok(_roomService.GetById(id));
-        }
-
-        [HttpGet]
-        [Route("{name}/search-by-name")]
-        public IActionResult GetRoomByName(string name)
-        {
-            return Ok(_roomService.GetByName(name));
-        }
-
-        [HttpPost]
-        [Route("")]
-        public async Task<IActionResult> CreateRoomAsync([FromBody]RoomCreateCommand command) 
-        {
-            return Ok(await _roomService.Create(command));
-        }
-
-        [HttpPost]
-        [Route("update")]
-        public async Task<IActionResult> UpdateRoomAsync([FromBody]RoomUpdateCommand command)
-        {
-            return Ok(await _roomService.Update(command));
-        }
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateRoom(int id, [FromBody] UpdateRoomCommand command)
+    {
+        var result = await _sender.Send(command with { Id = id });
+        return result.IsSuccess ? Ok(result.Value) : BadRequest(new { message = result.Error });
     }
 }
