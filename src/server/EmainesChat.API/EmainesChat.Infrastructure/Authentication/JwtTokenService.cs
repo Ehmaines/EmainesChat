@@ -27,7 +27,7 @@ public class JwtTokenService : ITokenService
             {
                 new Claim("Id", user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email.Value),
-                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim("name", user.UserName),
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             }),
             Expires = DateTime.UtcNow.AddHours(8),

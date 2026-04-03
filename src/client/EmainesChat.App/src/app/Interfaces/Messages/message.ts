@@ -1,9 +1,8 @@
-import { Room } from "../Rooms/room";
-import { User } from "../Users/user";
-
 export interface Message {
+  id?: number;
   content: string;
   sentAt: Date;
-  user: User;
-  room: Room;
+  userId: number;
+  userName: string;
+  roomId: number;
 }

@@ -1,12 +1,9 @@
 import { ActivatedRoute } from '@angular/router';
-import { RoomService } from 'src/app/Services/RoomServices/room.service';
-import { User } from './../../../Interfaces/Users/user';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { Message } from 'src/app/Interfaces/Messages/message';
 import { ChatMessagesService } from 'src/app/Services/ChatServices/chat-messages.service';
-import { Room } from 'src/app/Interfaces/room';
 import { AuthTokenService } from 'src/app/core/authentication/auth-token.service';
 
 @Component({
@@ -18,11 +15,9 @@ export class ChatBarComponent implements OnInit {
     content: string = '';
     message = new FormControl('');
     roomId: number = 0;
-    actualRoom: Room = { name: '', createdAt: new Date(), id: 0 };
 
     constructor(
         private chatMessageService: ChatMessagesService,
-        private roomService: RoomService,
         private route: ActivatedRoute,
         private authTokenService: AuthTokenService
     ) { }
@@ -33,22 +28,17 @@ export class ChatBarComponent implements OnInit {
 
     sendMessage(event: Event): void {
         event.preventDefault();
-        this.getActualRoom();
         this.message.value == null
             ? (this.content = '')
             : (this.content = this.message.value);
 
-        var messageToSend: Message = {
+        const messageToSend: Message = {
             content: this.content,
             sentAt: new Date(),
-            user: {
-                userName: this.authTokenService.token.name,
-                email: this.authTokenService.token.email,
-                password: '',
-            },
-            room: { name: this.actualRoom?.name, createdAt: this.actualRoom?.createdAt, id: this.actualRoom?.id },
+            userId: 0,
+            userName: this.authTokenService.token.name,
+            roomId: this.roomId,
         };
-        console.log(messageToSend)
         this.chatMessageService.sendMessage(messageToSend);
         this.message.setValue('');
     }
@@ -56,9 +46,6 @@ export class ChatBarComponent implements OnInit {
     getActualRoom() {
         this.route.params.subscribe((params) => {
             this.roomId = parseInt(params['id']);
-            this.roomService.getRoomById(this.roomId).subscribe((result) => {
-                this.actualRoom = result;
-            });
         });
     }
 }
