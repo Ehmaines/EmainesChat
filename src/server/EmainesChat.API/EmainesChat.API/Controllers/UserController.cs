@@ -1,47 +1,41 @@
-﻿using EmainesChat.Business.Commands;
-using EmainesChat.Business.Helpers.Enums;
-using EmainesChat.Business.Users;
+using EmainesChat.Application.Users.Commands.RegisterUser;
+using EmainesChat.Application.Users.Queries.GetAllUsers;
+using EmainesChat.Application.Users.Queries.GetUserById;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EmainesChat.API.Controllers
+namespace EmainesChat.API.Controllers;
+
+[ApiController]
+[Route("User")]
+public class UserController : ControllerBase
 {
-    [ApiController]
-    [Route("User")]
-    public class UserController : Controller
+    private readonly ISender _sender;
+
+    public UserController(ISender sender) => _sender = sender;
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetAllUsers()
     {
-        private readonly UserService _userService;
+        var result = await _sender.Send(new GetAllUsersQuery());
+        return Ok(result);
+    }
 
-        private readonly ILogger<UserController> _logger;
+    [HttpGet("{id:int}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetUserById(int id)
+    {
+        var result = await _sender.Send(new GetUserByIdQuery(id));
+        return result.IsSuccess ? Ok(result.Value) : NotFound(new { message = result.Error });
+    }
 
-        public UserController(ILogger<UserController> logger, UserService userService)
-        {
-            _logger = logger;
-            _userService = userService;
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        [Route("")]
-        public IActionResult GetUser()
-        {
-            return Ok(_userService.GetAll());
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        [Route("{id}")]
-        public IActionResult GetUserById(int id)
-        {
-            return Ok(_userService.GetById(id));
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("")]
-        public async Task<IActionResult> AddUser([FromBody] UserAddCommand command)
-        {
-            return Ok(await _userService.Create(command));
-        }
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> RegisterUser([FromBody] RegisterUserCommand command)
+    {
+        var result = await _sender.Send(command);
+        return result.IsSuccess ? Ok(result.Value) : BadRequest(new { message = result.Error });
     }
 }

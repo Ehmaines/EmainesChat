@@ -1,39 +1,26 @@
-﻿using EmainesChat.Business.Commands;
-using EmainesChat.Business.Messages;
-using EmainesChat.Business.Rooms;
-using EmainesChat.Business.Token;
-using EmainesChat.Business.Users;
+using EmainesChat.Application.Users.Commands.AuthenticateUser;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
-namespace EmainesChat.API.Controllers
+namespace EmainesChat.API.Controllers;
+
+[ApiController]
+[Route("login")]
+public class LoginController : ControllerBase
 {
-    [ApiController]
-    [Route("login")]
-    public class LoginController : Controller
+    private readonly ISender _sender;
+
+    public LoginController(ISender sender) => _sender = sender;
+
+    [HttpGet("isAuthenticated")]
+    [Authorize]
+    public IActionResult IsAuthenticated() => Ok(true);
+
+    [HttpPost]
+    public async Task<IActionResult> Login([FromBody] AuthenticateUserCommand command)
     {
-        private readonly TokenService _loginService;
-
-        private readonly ILogger<UserController> _logger;
-
-        public LoginController(ILogger<UserController> logger, TokenService loginService)
-        {
-            _logger = logger;
-            _loginService = loginService;
-        }
-
-        [HttpPost]
-        [Route("")]
-        public IActionResult Authenticate([FromBody] LoginCommand command)
-        {
-            var token = _loginService.GenerateToken(command);
-            if (token == null)
-            {
-                return NotFound(new {message = "Usuário ou senha inválidos"});
-            }
-            
-            return Ok(JsonConvert.SerializeObject(token));
-        }
+        var result = await _sender.Send(command);
+        return result.IsSuccess ? Ok(result.Value) : Unauthorized(new { message = result.Error });
     }
 }

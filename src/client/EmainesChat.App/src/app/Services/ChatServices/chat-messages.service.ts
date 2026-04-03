@@ -10,6 +10,8 @@ import {
 import { Subject as SubjectRxjs } from 'rxjs';
 import { Message } from 'src/app/Interfaces/Messages/message';
 import { HttpClient as AngularHttpClient } from '@angular/common/http';
+import * as signalR from '@microsoft/signalr';
+import { AuthTokenService } from 'src/app/core/authentication/auth-token.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,20 +20,21 @@ export class ChatMessagesService {
     private hubConnection!: HubConnection;
     public messages: Message[] = [];
     private isConnectionEstablished = false;
+    private currentRoomId: number | null = null;
     private readonly apiUrl: string = 'https://localhost:7080/';
 
     private messagesSubject: SubjectRxjs<Message[]> = new SubjectRxjs<
         Message[]
     >();
 
-    constructor(private http: AngularHttpClient) {
+    constructor(private http: AngularHttpClient, private authTokenService: AuthTokenService) {
         this.initializeSignalRConnection();
         this.registerHandlers();
     }
 
     private initializeSignalRConnection() {
-        this.hubConnection = new HubConnectionBuilder()
-            .withUrl('https://localhost:7080/messageHub')
+        this.hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl('https://localhost:7080/messageHub', { accessTokenFactory: () => this.authTokenService.encodedToken })
             .build();
 
         this.hubConnection
@@ -62,8 +65,7 @@ export class ChatMessagesService {
     private registerHandlers(): void {
         this.hubConnection.on('MessageCreated', (message: Message) => {
             this.messages.push(message);
-            this.messagesSubject.next(this.messages); //notifica o componente sobre novas mensagens
-            this.getMessagesByRoomIdInSignalR(message.room.id);
+            this.messagesSubject.next(this.messages);
         });
 
         this.hubConnection.on(
@@ -103,14 +105,15 @@ export class ChatMessagesService {
         }
     }
 
-    getMessagesByRoomIdInSignalR(roomId: number) {
-        if (this.isConnectionEstablished) {
-            this.hubConnection
-                .invoke('GetMessagesByRoomId', roomId)
-                .catch((error) =>
-                    console.error('Erro ao iniciar a conexão:', error)
-                );
+    async getMessagesByRoomIdInSignalR(roomId: number): Promise<void> {
+        if (!this.isConnectionEstablished) return;
+        if (this.currentRoomId !== null && this.currentRoomId !== roomId) {
+            await this.hubConnection.invoke('LeaveRoom', this.currentRoomId)
+                .catch((error) => console.error('Erro ao sair da sala:', error));
         }
+        this.currentRoomId = roomId;
+        await this.hubConnection.invoke('GetMessagesByRoomId', roomId)
+            .catch((error) => console.error('Erro ao buscar mensagens:', error));
     }
 
     getAllMessagesByDataBase() {

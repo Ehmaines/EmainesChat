@@ -1,35 +1,31 @@
-﻿using EmainesChat.Business.Messages;
-using EmainesChat.Business.Users;
+using EmainesChat.Application.Messages.Queries.GetAllMessages;
+using EmainesChat.Application.Messages.Queries.GetMessagesByRoom;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EmainesChat.API.Controllers
+namespace EmainesChat.API.Controllers;
+
+[ApiController]
+[Route("message")]
+[Authorize]
+public class MessageController : ControllerBase
 {
-    [ApiController]
-    [Route("message")]
-    public class MessageController : Controller
+    private readonly ISender _sender;
+
+    public MessageController(ISender sender) => _sender = sender;
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllMessages()
     {
-        private readonly MessageService _messageService;
+        var result = await _sender.Send(new GetAllMessagesQuery());
+        return Ok(result);
+    }
 
-        private readonly ILogger<UserController> _logger;
-
-        public MessageController(ILogger<UserController> logger, MessageService messageService)
-        {
-            _logger = logger;
-            _messageService = messageService;
-        }
-
-        [HttpGet]
-        [Route("")]
-        public IActionResult GetAllMessage()
-        {
-            return Ok(_messageService.GetAll());
-        }
-
-        [HttpGet]
-        [Route("{roomId}")]
-        public IActionResult GetMessagesByRoomId(int roomId)
-        {
-            return Ok(_messageService.GetByRoomId(roomId));
-        }
+    [HttpGet("{roomId:int}")]
+    public async Task<IActionResult> GetMessagesByRoomId(int roomId)
+    {
+        var result = await _sender.Send(new GetMessagesByRoomQuery(roomId));
+        return Ok(result);
     }
 }

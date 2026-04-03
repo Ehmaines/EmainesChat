@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './Components/home/home.component';
 import { LoginModule } from './Components/login/login.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthModule } from './core/authentication/auth.module';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         HttpClientModule,
         RouterModule,
         LoginModule,
+        AuthModule,
         NgbModule,
     ],
     providers: [],
