@@ -26,8 +26,11 @@ export class AuthTokenService {
     }
 
     public get token(): IAuthenticationToken {
-        if (!this.decodedToken && this.authToken) {
-            this.decodedToken = this.jwtHelper.decodeToken(this.authToken)!;
+        if (!this.decodedToken.name) {
+            const encoded = this.encodedToken;
+            if (encoded) {
+                this.decodedToken = this.decodeToken(encoded);
+            }
         }
 
         return this.decodedToken || <IAuthenticationToken>{};

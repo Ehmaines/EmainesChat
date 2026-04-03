@@ -1,8 +1,9 @@
 <div class="container">
-    <ul class="messages" >
-        <li #messagesList class="message" *ngFor="let message of Allmessages" [ngClass]="{'sent-by-me': message.user.userName == 'Felipe'}">
+    <ul class="messages">
+        <li #messagesList class="message" *ngFor="let message of Allmessages"
+            [ngClass]="{'sent-by-me': message.userName == currentUserName}">
             <div class="sender-info">
-                <div class="send-by">{{message.user.userName}}</div>
+                <div class="send-by">{{message.userName}}</div>
                 <div class="send-at">{{message.sentAt | date:'dd/MM/yyyy HH:mm'}}</div>
             </div>
             <div class="message-content">
@@ -11,4 +12,3 @@
         </li>
     </ul>
 </div>
-    

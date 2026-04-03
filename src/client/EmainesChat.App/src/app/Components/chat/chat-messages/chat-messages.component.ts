@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { HubConnection, HubConnectionState } from '@microsoft/signalr';
 import { Message } from 'src/app/Interfaces/Messages/message';
 import { ChatMessagesService } from 'src/app/Services/ChatServices/chat-messages.service';
-import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { skip } from 'rxjs/operators';
 import { RoomService } from 'src/app/Services/RoomServices/room.service';
+import { AuthTokenService } from 'src/app/core/authentication/auth-token.service';
 
 @Component({
     selector: 'ehm-chat-messages',
@@ -18,19 +18,20 @@ export class ChatMessagesComponent implements OnInit {
     @ViewChild('messagesList', { static: false }) messagesListRef!: ElementRef;
     Allmessages: Message[] = [];
     roomId: number = 0;
-    signalRConnection!: HubConnection;
-    signalRConnectionState: HubConnectionState =
-        HubConnectionState.Disconnected;
-    messagesSubject!: Subject<Message[]>;
+    currentUserName: string = '';
+
     constructor(
         private chatMessagesService: ChatMessagesService,
         private route: ActivatedRoute,
-        private roomService: RoomService
-    ) {}
+        private roomService: RoomService,
+        private authTokenService: AuthTokenService
+    ) { }
 
     ngOnInit() {
+        this.currentUserName = this.authTokenService.token.name;
+        console.log('this.authTokenService', this.authTokenService)
         this.route.params.subscribe((params) => {
-            this.roomId = params['id'];
+            this.roomId = +params['id'];
         });
 
         this.chatMessagesService
@@ -39,35 +40,24 @@ export class ChatMessagesComponent implements OnInit {
                 this.Allmessages = response;
             });
 
-        this.messagesSubject = this.chatMessagesService.getMessagesSubject();
-        this.messagesSubject.subscribe((messages: Message[]) => {
-            this.Allmessages = messages; // Atualiza a propriedade Allmessages quando novas mensagens forem recebidas
+        this.chatMessagesService.getMessagesSubject().subscribe((messages: Message[]) => {
+            this.Allmessages = [...messages];
         });
 
-        const connection = this.chatMessagesService.getSignalRConnection();
-        this.signalRConnectionState = connection.state;
-        if (this.signalRConnectionState === HubConnectionState.Disconnected) {
-            connection.start().then(() => {
-                console.log('Conexão SignalR estabelecida no componente.');
-                this.chatMessagesService.getMessagesByRoomIdInSignalR(
-                    this.roomId
-                );
-            });
-        } else {
-            console.log(
-                'A conexão SignalR já está estabelecida no componente.'
-            );
+        this.chatMessagesService.whenReady().then(() => {
             this.chatMessagesService.getMessagesByRoomIdInSignalR(this.roomId);
-        }
+        });
 
-        this.roomService.roomId$.subscribe((newRoomId) => {
-            console.log('caindo no observable de changeRoom');
+        this.roomService.roomId$.pipe(skip(1)).subscribe((newRoomId) => {
             this.roomId = newRoomId;
             this.chatMessagesService
                 .getMessagesByRoom(this.roomId)
                 .subscribe((result) => {
                     this.Allmessages = result;
                 });
+            this.chatMessagesService.whenReady().then(() => {
+                this.chatMessagesService.getMessagesByRoomIdInSignalR(this.roomId);
+            });
         });
     }
 }

@@ -5,12 +5,13 @@ import { Router } from '@angular/router';
 import { AuthTokenService } from './auth-token.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
-    private readonly apiUrl: string = 'https://localhost:7080/';
+    private readonly apiUrl = `${environment.apiUrl}/`;
     private httpHeaders: HttpHeaders = new HttpHeaders({
         'Content-Type': 'application/json',
     });

@@ -13,6 +13,7 @@ public class MessageRepository : IMessageRepository
         => await _context.Messages
             .Include(m => m.User)
             .Include(m => m.Room)
+            .OrderBy(m => m.SentAt)
             .ToListAsync();
 
     public async Task<IReadOnlyList<Message>> GetByRoomIdAsync(int roomId)
@@ -20,6 +21,7 @@ public class MessageRepository : IMessageRepository
             .Include(m => m.User)
             .Include(m => m.Room)
             .Where(m => m.RoomId == roomId)
+            .OrderBy(m => m.SentAt)
             .ToListAsync();
 
     public Task AddAsync(Message message)
