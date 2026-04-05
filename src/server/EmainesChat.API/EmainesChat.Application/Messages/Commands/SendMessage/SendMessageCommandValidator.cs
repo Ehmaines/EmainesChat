@@ -11,9 +11,9 @@ public class SendMessageCommandValidator : AbstractValidator<SendMessageCommand>
             .MaximumLength(2000).WithMessage("Mensagem não pode ter mais de 2000 caracteres.");
 
         RuleFor(x => x.UserId)
-            .GreaterThan(0).WithMessage("UserId inválido.");
+            .NotEmpty().WithMessage("UserId inválido.");
 
         RuleFor(x => x.RoomId)
-            .GreaterThan(0).WithMessage("RoomId inválido.");
+            .NotEmpty().WithMessage("RoomId inválido.");
     }
 }

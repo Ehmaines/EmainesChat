@@ -50,7 +50,7 @@ public class SendMessageCommandHandler : IRequestHandler<SendMessageCommand, Res
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         await _publisher.Publish(
-            new MessageCreatedNotification(message.Id, message.RoomId, message.UserId, message.Content.Value, message.User.UserName, message.SentAt),
+            new MessageCreatedNotification(message.Id, message.RoomId, message.UserId, message.Content.Value, message.User.UserName, message.SentAt, message.User.ProfilePictureUrl),
             cancellationToken);
 
         return Result.Success(MessageDto.From(message));

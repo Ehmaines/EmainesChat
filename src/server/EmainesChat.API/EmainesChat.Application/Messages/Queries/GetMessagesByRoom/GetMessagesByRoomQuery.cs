@@ -3,4 +3,4 @@ using MediatR;
 
 namespace EmainesChat.Application.Messages.Queries.GetMessagesByRoom;
 
-public record GetMessagesByRoomQuery(int RoomId) : IRequest<IReadOnlyList<MessageDto>>;
+public record GetMessagesByRoomQuery(Guid RoomId) : IRequest<IReadOnlyList<MessageDto>>;

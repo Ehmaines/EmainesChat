@@ -1,0 +1,332 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+
+$dark:        #0d1117;
+$dark-surface:#161b22;
+$dark-border: rgba(255, 255, 255, 0.07);
+$accent:      #4caf50;
+$accent-dim:  rgba(76, 175, 80, 0.15);
+$text-light:  rgba(255, 255, 255, 0.88);
+$text-muted:  rgba(255, 255, 255, 0.42);
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background: $dark;
+  font-family: 'DM Sans', sans-serif;
+  color: $text-light;
+
+  // Dot-grid texture
+  background-image: radial-gradient(rgba(76, 175, 80, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+// ── Top bar ─────────────────────────────────────────────────
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 60px;
+  background: rgba(13, 17, 23, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid $dark-border;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: $accent;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-decoration: none;
+  color: $text-light;
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  transition: background 0.15s;
+
+  &:hover {
+    background: $dark-surface;
+  }
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(76, 175, 80, 0.5);
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.btn-logout {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $text-muted;
+  padding: 6px 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s, background 0.15s;
+
+  &:hover {
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.1);
+  }
+}
+
+// ── Main content ────────────────────────────────────────────
+.lobby-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+// ── Greeting ────────────────────────────────────────────────
+.greeting {
+  margin-bottom: 2.5rem;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 0.4rem;
+    color: $text-light;
+  }
+
+  .name-accent {
+    color: $accent;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: $text-muted;
+    margin: 0;
+  }
+}
+
+// ── Rooms section ────────────────────────────────────────────
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: $text-muted;
+  margin: 0;
+}
+
+.btn-new-room {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: $accent-dim;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  color: $accent;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  font-family: inherit;
+
+  &:hover {
+    background: rgba(76, 175, 80, 0.25);
+    border-color: rgba(76, 175, 80, 0.5);
+  }
+}
+
+// ── Create room form ─────────────────────────────────────────
+.create-room-form {
+  background: $dark-surface;
+  border: 1px solid $dark-border;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.room-name-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: $text-light;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.55rem 0.85rem;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    border-color: rgba(76, 175, 80, 0.5);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+  }
+}
+
+.create-form-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.btn-confirm {
+  background: $accent;
+  border: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 1.1rem;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover:not(:disabled) {
+    background: darken(#4caf50, 8%);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.btn-cancel {
+  background: none;
+  border: 1px solid $dark-border;
+  color: $text-muted;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.45rem 0.9rem;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+
+  &:hover {
+    color: $text-light;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.create-error {
+  font-size: 0.8rem;
+  color: #f87171;
+}
+
+// ── Room cards grid ──────────────────────────────────────────
+.rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.85rem;
+}
+
+.room-card {
+  background: $dark-surface;
+  border: 1px solid $dark-border;
+  border-radius: 12px;
+  padding: 1.25rem 1.25rem 1rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  position: relative;
+
+  &:hover {
+    border-color: rgba(76, 175, 80, 0.35);
+    background: rgba(22, 27, 34, 0.9);
+    transform: translateY(-2px);
+
+    .btn-enter {
+      opacity: 1;
+      color: $accent;
+    }
+  }
+}
+
+.room-hash {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: rgba(76, 175, 80, 0.5);
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.room-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $text-light;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-enter {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: 0.6rem;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: $text-muted;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: color 0.15s, opacity 0.15s;
+}
+
+.empty-state {
+  color: $text-muted;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+// ── Responsive ───────────────────────────────────────────────
+@media (max-width: 600px) {
+  .lobby-content {
+    padding: 2rem 1rem 3rem;
+  }
+
+  .greeting h1 {
+    font-size: 1.5rem;
+  }
+
+  .rooms-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

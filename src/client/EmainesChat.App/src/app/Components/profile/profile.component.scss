@@ -1,0 +1,200 @@
+@import "../../styles/variables.scss";
+
+$card-bg: $primary-color;
+$btn-primary-bg: darken($primary-color, 30%);
+$input-bg: lighten($primary-color, 8%);
+
+.profile-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 16px;
+    min-height: 100vh;
+    background-color: $background-color;
+}
+
+.profile-card {
+    background: $card-bg;
+    border-radius: 12px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+    padding: 32px;
+    width: 100%;
+    max-width: 480px;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h2 {
+        margin-top: 12px;
+        font-size: 20px;
+        font-weight: bold;
+        color: darken($primary-color, 55%);
+    }
+}
+
+.btn-back {
+    align-self: flex-start;
+    background: none;
+    border: none;
+    color: darken($primary-color, 40%);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0;
+    margin-bottom: 8px;
+    transition: color 0.15s ease;
+
+    &:hover {
+        color: darken($primary-color, 60%);
+    }
+}
+
+.avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid darken($primary-color, 20%);
+
+    &.avatar-clickable {
+        cursor: pointer;
+        transition: opacity 0.15s ease, border-color 0.15s ease;
+
+        &:hover {
+            opacity: 0.85;
+            border-color: $btn-primary-bg;
+        }
+    }
+}
+
+.avatar-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.btn-avatar-change,
+.btn-avatar-remove {
+    background: none;
+    border: none;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.15s ease;
+}
+
+.btn-avatar-change {
+    color: darken($primary-color, 45%);
+
+    &:hover {
+        color: darken($primary-color, 60%);
+        text-decoration: underline;
+    }
+}
+
+.btn-avatar-remove {
+    color: #c0392b;
+
+    &:hover {
+        color: darken(#c0392b, 10%);
+        text-decoration: underline;
+    }
+}
+
+.alert-sm {
+    font-size: 13px;
+    padding: 6px 10px;
+    margin-top: 6px;
+    margin-bottom: 0;
+    border-radius: 6px;
+}
+
+.alert-success {
+    background-color: lighten($primary-color, 5%);
+    border: 1px solid darken($primary-color, 15%);
+    color: darken($primary-color, 50%);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.alert-danger {
+    background-color: #fde8e8;
+    border: 1px solid #f5c6c6;
+    color: #922b21;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+
+    label {
+        font-weight: 600;
+        font-size: 13px;
+        margin-bottom: 4px;
+        display: block;
+        color: darken($primary-color, 50%);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+    }
+
+    .form-control {
+        background-color: $input-bg;
+        border: 1px solid darken($primary-color, 15%);
+        border-radius: 6px;
+        color: darken($primary-color, 60%);
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+        &:focus {
+            background-color: lighten($primary-color, 10%);
+            border-color: $btn-primary-bg;
+            box-shadow: 0 0 0 3px rgba(darken($primary-color, 30%), 0.15);
+            outline: none;
+        }
+
+        &:disabled {
+            background-color: darken($primary-color, 5%);
+            color: $secondary-color;
+            cursor: not-allowed;
+        }
+    }
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+
+    .btn-primary {
+        background-color: $btn-primary-bg;
+        border-color: $btn-primary-bg;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 6px;
+        transition: background-color 0.15s ease;
+
+        &:hover:not(:disabled) {
+            background-color: darken($btn-primary-bg, 8%);
+            border-color: darken($btn-primary-bg, 8%);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    .btn-outline-danger {
+        border-radius: 6px;
+        font-weight: 600;
+    }
+}

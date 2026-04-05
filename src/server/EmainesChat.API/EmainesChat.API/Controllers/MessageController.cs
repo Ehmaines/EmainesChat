@@ -22,8 +22,8 @@ public class MessageController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("{roomId:int}")]
-    public async Task<IActionResult> GetMessagesByRoomId(int roomId)
+    [HttpGet("{roomId:guid}")]
+    public async Task<IActionResult> GetMessagesByRoomId(Guid roomId)
     {
         var result = await _sender.Send(new GetMessagesByRoomQuery(roomId));
         return Ok(result);

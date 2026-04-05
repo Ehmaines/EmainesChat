@@ -16,7 +16,7 @@ public class MessageRepository : IMessageRepository
             .OrderBy(m => m.SentAt)
             .ToListAsync();
 
-    public async Task<IReadOnlyList<Message>> GetByRoomIdAsync(int roomId)
+    public async Task<IReadOnlyList<Message>> GetByRoomIdAsync(Guid roomId)
         => await _context.Messages
             .Include(m => m.User)
             .Include(m => m.Room)

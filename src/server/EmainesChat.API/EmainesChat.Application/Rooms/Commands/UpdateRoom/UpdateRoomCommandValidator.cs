@@ -7,7 +7,7 @@ public class UpdateRoomCommandValidator : AbstractValidator<UpdateRoomCommand>
     public UpdateRoomCommandValidator()
     {
         RuleFor(x => x.Id)
-            .GreaterThan(0).WithMessage("Id da sala inválido.");
+            .NotEmpty().WithMessage("Id da sala inválido.");
 
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Nome da sala é obrigatório.")

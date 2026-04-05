@@ -1,8 +1,34 @@
 <div class="side-bar-rooms">
+  <a class="btn-home" routerLink="/home" title="Voltar para home">
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+    Home
+  </a>
   <div class="title">Chats</div>
   <div class="rooms">
       <div class="room" #roomsList *ngFor="let room of allRooms" (click)="changeRoom(room.id)" [ngClass]="{'selectedRoom' : room.id == activeRoomId}" >
           <span>{{room.name}}</span>
       </div>
+  </div>
+  <div class="user-card">
+    <a class="user-info" routerLink="/profile" title="Ver perfil">
+      <img
+        [src]="currentUserAvatar ?? 'assets/userPlaceholder.png'"
+        class="user-card-avatar"
+        alt="avatar"
+      />
+      <span class="user-card-name">{{ currentUserName }}</span>
+    </a>
+    <button class="btn-logout" (click)="logout()" title="Sair">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+    </button>
   </div>
 </div>

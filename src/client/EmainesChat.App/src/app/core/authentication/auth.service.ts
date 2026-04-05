@@ -6,6 +6,7 @@ import { AuthTokenService } from './auth-token.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { ChatMessagesService } from 'src/app/Services/ChatServices/chat-messages.service';
 
 @Injectable({
     providedIn: 'root',
@@ -28,13 +29,14 @@ export class AuthService {
     constructor(
         private http: HttpClient,
         private authTokenService: AuthTokenService,
-        private router: Router
+        private router: Router,
+        private chatMessagesService: ChatMessagesService
     ) { }
 
     public isAuthenticated(): Observable<boolean> {
-        return this.http.get<{ isAuthenticated: boolean }>(`${this.apiUrl}login/isAuthenticated`, {})
+        return this.http.get<boolean>(`${this.apiUrl}login/isAuthenticated`, {})
             .pipe(
-                map(response => response.isAuthenticated),
+                map(response => !!response),
                 catchError(() => of(false))
             );
     }
@@ -49,9 +51,16 @@ export class AuthService {
                         ? response
                         : response?.token ?? response?.Token ?? '';
                     this.handleAuthToken(true, token);
+                    this.chatMessagesService.startConnection();
                 })
             );
     }
+    public logout(): void {
+        this.chatMessagesService.stopConnection();
+        this.authTokenService.removeToken();
+        this.loggedIn = false;
+    }
+
     private handleAuthToken(loggedIn: boolean, responseOrToken: any): void {
         const token = typeof responseOrToken === 'string'
             ? responseOrToken

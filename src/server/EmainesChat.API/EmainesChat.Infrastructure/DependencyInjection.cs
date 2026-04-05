@@ -5,6 +5,7 @@ using EmainesChat.Domain.Aggregates.Users;
 using EmainesChat.Infrastructure.Authentication;
 using EmainesChat.Infrastructure.Persistence;
 using EmainesChat.Infrastructure.Persistence.Repositories;
+using EmainesChat.Infrastructure.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,11 @@ public static class DependencyInjection
         services.AddScoped<IRoomRepository, RoomRepository>();
         services.AddScoped<IMessageRepository, MessageRepository>();
         services.AddScoped<ITokenService, JwtTokenService>();
+
+        // Armazenamento de arquivos — troque LocalStorageService por uma implementação
+        // de Azure Blob Storage, AWS S3, etc. para produção (ver IStorageService.cs).
+        services.AddHttpContextAccessor();
+        services.AddScoped<IStorageService, LocalStorageService>();
 
         return services;
     }

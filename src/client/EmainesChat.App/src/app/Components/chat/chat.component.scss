@@ -1,15 +1,13 @@
-@import "../../styles/variables.scss";
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
 
-ehm-chat-messages {
-    flex-grow: 1;
-    padding: 20px;
-}
-.main-chat{
-    padding-bottom: 15px;
-}
-ehm-chat-bar {
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    padding: 10px;
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }

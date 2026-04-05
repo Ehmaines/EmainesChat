@@ -1,3 +1,3 @@
 namespace EmainesChat.Domain.Events;
 
-public record MessageCreatedEvent(int MessageId, int RoomId, int UserId, string Content, DateTime SentAt);
+public record MessageCreatedEvent(Guid MessageId, Guid RoomId, Guid UserId, string Content, DateTime SentAt);

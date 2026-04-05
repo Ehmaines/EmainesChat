@@ -1,0 +1,56 @@
+<div class="profile-page">
+    <div class="profile-card">
+        <div class="profile-header">
+            <button type="button" class="btn-back" (click)="goBack()">&#8592; Voltar</button>
+            <input type="file" #fileInput accept="image/jpeg,image/png,image/webp" (change)="onFileSelected($event)"
+                hidden>
+            <img [src]="profile?.profilePictureUrl ?? 'assets/userPlaceholder.png'" class="avatar avatar-clickable"
+                alt="Foto de perfil" title="Clique para alterar a foto" (click)="fileInput.click()" />
+            <div class="avatar-actions">
+                <button type="button" class="btn-avatar-change" (click)="fileInput.click()">Alterar foto</button>
+                <button type="button" class="btn-avatar-remove" *ngIf="profile?.profilePictureUrl"
+                    (click)="removePicture()">Remover foto</button>
+            </div>
+            <div *ngIf="pictureError" class="alert alert-danger alert-sm">{{ pictureError }}</div>
+            <h2>Meu Perfil</h2>
+        </div>
+
+        <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+        <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="form-group">
+                <label for="userName">Nome de usuário</label>
+                <input type="text" class="form-control" id="userName" [value]="profile?.userName ?? ''" disabled />
+            </div>
+
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" class="form-control" id="name" formControlName="name" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" formControlName="email" />
+            </div>
+
+            <div class="form-group">
+                <label for="currentPassword">Senha atual</label>
+                <input type="password" class="form-control" id="currentPassword" formControlName="currentPassword"
+                    placeholder="Deixe em branco para não alterar" />
+            </div>
+
+            <div class="form-group">
+                <label for="newPassword">Nova senha</label>
+                <input type="password" class="form-control" id="newPassword" formControlName="newPassword"
+                    placeholder="Deixe em branco para não alterar" />
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary" [disabled]="!form.dirty">
+                    Salvar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

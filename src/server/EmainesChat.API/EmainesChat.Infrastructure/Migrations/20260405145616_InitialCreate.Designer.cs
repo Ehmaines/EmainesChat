@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmainesChat.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260403000204_InitialCreate")]
+    [Migration("20260405145616_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,20 +27,17 @@ namespace EmainesChat.Infrastructure.Migrations
 
             modelBuilder.Entity("EmainesChat.Domain.Aggregates.Messages.Message", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("SentAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -53,11 +50,8 @@ namespace EmainesChat.Infrastructure.Migrations
 
             modelBuilder.Entity("EmainesChat.Domain.Aggregates.Rooms.Room", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -69,14 +63,15 @@ namespace EmainesChat.Infrastructure.Migrations
 
             modelBuilder.Entity("EmainesChat.Domain.Aggregates.Users.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
@@ -87,6 +82,9 @@ namespace EmainesChat.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -107,8 +105,8 @@ namespace EmainesChat.Infrastructure.Migrations
 
                     b.OwnsOne("EmainesChat.Domain.ValueObjects.MessageContent", "Content", b1 =>
                         {
-                            b1.Property<int>("MessageId")
-                                .HasColumnType("int");
+                            b1.Property<Guid>("MessageId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -136,8 +134,8 @@ namespace EmainesChat.Infrastructure.Migrations
                 {
                     b.OwnsOne("EmainesChat.Domain.ValueObjects.RoomName", "Name", b1 =>
                         {
-                            b1.Property<int>("RoomId")
-                                .HasColumnType("int");
+                            b1.Property<Guid>("RoomId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -161,8 +159,8 @@ namespace EmainesChat.Infrastructure.Migrations
                 {
                     b.OwnsOne("EmainesChat.Domain.ValueObjects.Email", "Email", b1 =>
                         {
-                            b1.Property<int>("UserId")
-                                .HasColumnType("int");
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -178,10 +176,29 @@ namespace EmainesChat.Infrastructure.Migrations
                                 .HasForeignKey("UserId");
                         });
 
+                    b.OwnsOne("EmainesChat.Domain.ValueObjects.Name", "Name", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("Name");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("Users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
                     b.OwnsOne("EmainesChat.Domain.ValueObjects.Password", "Password", b1 =>
                         {
-                            b1.Property<int>("UserId")
-                                .HasColumnType("int");
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Hash")
                                 .IsRequired()
@@ -198,6 +215,8 @@ namespace EmainesChat.Infrastructure.Migrations
 
                     b.Navigation("Email")
                         .IsRequired();
+
+                    b.Navigation("Name");
 
                     b.Navigation("Password")
                         .IsRequired();

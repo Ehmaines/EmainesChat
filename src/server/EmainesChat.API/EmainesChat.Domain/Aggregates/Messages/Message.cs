@@ -7,14 +7,14 @@ namespace EmainesChat.Domain.Aggregates.Messages;
 
 public class Message
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; }
     public MessageContent Content { get; private set; } = null!;
     public DateTime SentAt { get; private set; }
 
-    public int UserId { get; private set; }
+    public Guid UserId { get; private set; }
     public User User { get; private set; } = null!;
 
-    public int RoomId { get; private set; }
+    public Guid RoomId { get; private set; }
     public Room Room { get; private set; } = null!;
 
     private Message() { } // EF Core
@@ -27,6 +27,7 @@ public class Message
 
         return Result.Success(new Message
         {
+            Id = Guid.NewGuid(),
             Content = contentResult.Value,
             User = user,
             UserId = user.Id,

@@ -4,4 +4,4 @@ using MediatR;
 
 namespace EmainesChat.Application.Rooms.Queries.GetRoomById;
 
-public record GetRoomByIdQuery(int Id) : IRequest<Result<RoomDto>>;
+public record GetRoomByIdQuery(Guid Id) : IRequest<Result<RoomDto>>;

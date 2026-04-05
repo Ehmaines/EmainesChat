@@ -9,7 +9,7 @@ public class RoomRepository : IRoomRepository
 
     public RoomRepository(AppDbContext context) => _context = context;
 
-    public Task<Room?> GetByIdAsync(int id)
+    public Task<Room?> GetByIdAsync(Guid id)
         => _context.Rooms.FirstOrDefaultAsync(r => r.Id == id);
 
     public Task<Room?> GetByNameAsync(string name)

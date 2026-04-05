@@ -4,4 +4,4 @@ using MediatR;
 
 namespace EmainesChat.Application.Users.Queries.GetUserById;
 
-public record GetUserByIdQuery(int Id) : IRequest<Result<UserDto>>;
+public record GetUserByIdQuery(Guid Id) : IRequest<Result<UserDto>>;

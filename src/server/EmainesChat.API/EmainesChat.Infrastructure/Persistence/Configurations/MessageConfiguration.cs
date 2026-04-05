@@ -10,6 +10,9 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
     {
         builder.HasKey(m => m.Id);
 
+        builder.Property(m => m.Id)
+            .ValueGeneratedNever();
+
         builder.OwnsOne(m => m.Content, c =>
         {
             c.Property(x => x.Value)

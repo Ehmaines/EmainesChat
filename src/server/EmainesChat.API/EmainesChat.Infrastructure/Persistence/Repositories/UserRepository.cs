@@ -9,11 +9,14 @@ public class UserRepository : IUserRepository
 
     public UserRepository(AppDbContext context) => _context = context;
 
-    public Task<User?> GetByIdAsync(int id)
+    public Task<User?> GetByIdAsync(Guid id)
         => _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
     public Task<User?> GetByEmailAsync(string email)
         => _context.Users.FirstOrDefaultAsync(u => u.Email.Value == email.ToLowerInvariant());
+
+    public Task<User?> GetByUserNameAsync(string userName)
+        => _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
 
     public async Task<IReadOnlyList<User>> GetAllAsync()
         => await _context.Users.ToListAsync();
@@ -21,6 +24,12 @@ public class UserRepository : IUserRepository
     public Task AddAsync(User user)
     {
         _context.Users.Add(user);
+        return Task.CompletedTask;
+    }
+
+    public Task UpdateAsync(User user)
+    {
+        _context.Users.Update(user);
         return Task.CompletedTask;
     }
 }

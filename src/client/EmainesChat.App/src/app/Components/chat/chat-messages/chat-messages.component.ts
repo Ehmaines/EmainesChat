@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Message } from 'src/app/Interfaces/Messages/message';
 import { ChatMessagesService } from 'src/app/Services/ChatServices/chat-messages.service';
 import { ActivatedRoute } from '@angular/router';
@@ -14,11 +14,13 @@ import { AuthTokenService } from 'src/app/core/authentication/auth-token.service
         '../../../styles/variables.scss',
     ],
 })
-export class ChatMessagesComponent implements OnInit {
-    @ViewChild('messagesList', { static: false }) messagesListRef!: ElementRef;
+export class ChatMessagesComponent implements OnInit, AfterViewChecked {
+    @ViewChild('messagesContainer') messagesContainerRef!: ElementRef;
     Allmessages: Message[] = [];
-    roomId: number = 0;
+    roomId: string = '';
     currentUserName: string = '';
+    currentRoomName: string = '';
+    private lastMessageCount = 0;
 
     constructor(
         private chatMessagesService: ChatMessagesService,
@@ -29,9 +31,14 @@ export class ChatMessagesComponent implements OnInit {
 
     ngOnInit() {
         this.currentUserName = this.authTokenService.token.name;
-        console.log('this.authTokenService', this.authTokenService)
+
         this.route.params.subscribe((params) => {
-            this.roomId = +params['id'];
+            this.roomId = params['id'];
+        });
+
+        this.roomService.getAllRooms().subscribe((rooms) => {
+            const room = rooms.find(r => r.id === this.roomId);
+            this.currentRoomName = room?.name?.toString() ?? '';
         });
 
         this.chatMessagesService
@@ -50,6 +57,10 @@ export class ChatMessagesComponent implements OnInit {
 
         this.roomService.roomId$.pipe(skip(1)).subscribe((newRoomId) => {
             this.roomId = newRoomId;
+            this.roomService.getAllRooms().subscribe((rooms) => {
+                const room = rooms.find(r => r.id === this.roomId);
+                this.currentRoomName = room?.name?.toString() ?? '';
+            });
             this.chatMessagesService
                 .getMessagesByRoom(this.roomId)
                 .subscribe((result) => {
@@ -59,5 +70,19 @@ export class ChatMessagesComponent implements OnInit {
                 this.chatMessagesService.getMessagesByRoomIdInSignalR(this.roomId);
             });
         });
+    }
+
+    ngAfterViewChecked(): void {
+        if (this.Allmessages.length !== this.lastMessageCount) {
+            this.lastMessageCount = this.Allmessages.length;
+            this.scrollToBottom();
+        }
+    }
+
+    private scrollToBottom(): void {
+        try {
+            const el = this.messagesContainerRef.nativeElement;
+            el.scrollTop = el.scrollHeight;
+        } catch { }
     }
 }

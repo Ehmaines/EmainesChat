@@ -1,0 +1,169 @@
+<div class="auth-wrapper">
+
+  <!-- Branding panel -->
+  <div class="brand-panel">
+    <div class="brand-content">
+
+      <div class="brand-logo">
+        <svg class="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="6" width="32" height="26" rx="7" fill="currentColor" opacity="0.18" />
+          <rect x="4" y="6" width="32" height="26" rx="7" stroke="currentColor" stroke-width="2" />
+          <path d="M12 42 L18 32 H22" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <circle cx="14" cy="19" r="2.5" fill="currentColor" />
+          <circle cx="20" cy="19" r="2.5" fill="currentColor" />
+          <circle cx="26" cy="19" r="2.5" fill="currentColor" />
+        </svg>
+        <span class="logo-name">Emaines<em>Chat</em></span>
+      </div>
+
+      <!-- Chat preview -->
+      <div class="chat-preview">
+        <div class="chat-preview__header">
+          <span class="chat-preview__status"></span>
+          <span class="chat-preview__room"># geral</span>
+          <span class="chat-preview__count">3 online</span>
+        </div>
+
+        <div class="chat-preview__messages">
+
+          <div class="msg msg--in msg--1">
+            <div class="msg__avatar">A</div>
+            <div class="msg__body">
+              <span class="msg__author">Ana</span>
+              <div class="msg__bubble">Opaa Bão? 👋</div>
+            </div>
+          </div>
+
+          <div class="msg msg--in msg--2">
+            <div class="msg__avatar msg__avatar--c">C</div>
+            <div class="msg__body">
+              <span class="msg__author">Carlos</span>
+              <div class="msg__bubble">Opaa Bão e aí?</div>
+            </div>
+          </div>
+
+          <div class="msg msg--in msg--typing">
+            <div class="msg__avatar msg__avatar--v">V</div>
+            <div class="msg__bubble msg__bubble--typing">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+
+          <div class="msg msg--out msg--3">
+            <div class="msg__bubble msg__bubble--sent">Bão por aqui também, quanto tempo</div>
+          </div>
+
+          <div class="msg msg--in msg--4">
+            <div class="msg__avatar">A</div>
+            <div class="msg__body">
+              <span class="msg__author">Ana</span>
+              <div class="msg__bubble">Pois é 😄</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Form panel -->
+  <div class="form-panel">
+    <div class="form-container">
+
+      <div class="mobile-logo">
+        <svg class="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="6" width="32" height="26" rx="7" fill="currentColor" opacity="0.18" />
+          <rect x="4" y="6" width="32" height="26" rx="7" stroke="currentColor" stroke-width="2" />
+          <circle cx="14" cy="19" r="2.5" fill="currentColor" />
+          <circle cx="20" cy="19" r="2.5" fill="currentColor" />
+          <circle cx="26" cy="19" r="2.5" fill="currentColor" />
+        </svg>
+        <span class="logo-name">Emaines<em>Chat</em></span>
+      </div>
+
+      <div class="form-header">
+        <h1 class="form-title">Criar conta</h1>
+        <p class="form-subtitle">Preencha os dados para começar</p>
+      </div>
+
+      <div *ngIf="successMessage" class="alert-success">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5" />
+          <path d="M5 8.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+        {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage" class="alert-error">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5" />
+          <path d="M8 5v3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          <circle cx="8" cy="11.5" r="0.75" fill="currentColor" />
+        </svg>
+        {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="register($event)">
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="userName" class="field-label">Nome de usuário</label>
+            <input type="text" class="field-input" id="userName" formControlName="userName" placeholder="usuario123"
+              [class.is-invalid]="userName.invalid && userName.touched" />
+            <div class="invalid-feedback" *ngIf="userName.errors?.['required'] && userName.touched">Obrigatório.</div>
+            <div class="invalid-feedback" *ngIf="userName.errors?.['maxlength']">Máx. 50 caracteres.</div>
+          </div>
+
+          <div class="field-group">
+            <label for="name" class="field-label">Nome</label>
+            <input type="text" class="field-input" id="name" formControlName="name" placeholder="Seu nome"
+              [class.is-invalid]="name.invalid && name.touched" />
+            <div class="invalid-feedback" *ngIf="name.errors?.['required'] && name.touched">Obrigatório.</div>
+            <div class="invalid-feedback" *ngIf="name.errors?.['minlength']">Mín. 3 caracteres.</div>
+            <div class="invalid-feedback" *ngIf="name.errors?.['maxlength']">Máx. 100 caracteres.</div>
+            <div class="invalid-feedback" *ngIf="name.errors?.['pattern']">Sem números ou caracteres especiais.</div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="email" class="field-label">E-mail</label>
+          <input type="email" class="field-input" id="email" formControlName="email" placeholder="seu@email.com"
+            [class.is-invalid]="email.invalid && email.touched" />
+          <div class="invalid-feedback" *ngIf="email.errors?.['required'] && email.touched">E-mail é obrigatório.</div>
+          <div class="invalid-feedback" *ngIf="email.errors?.['email']">E-mail inválido.</div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="password" class="field-label">Senha</label>
+            <input type="password" class="field-input" id="password" formControlName="password" placeholder="••••••••"
+              [class.is-invalid]="password.invalid && password.touched" />
+            <div class="invalid-feedback" *ngIf="password.errors?.['required'] && password.touched">Obrigatória.</div>
+            <div class="invalid-feedback" *ngIf="password.errors?.['minlength']">Mín. 8 caracteres.</div>
+            <div class="invalid-feedback" *ngIf="password.errors?.['pattern']">Deve conter letra e número.</div>
+          </div>
+
+          <div class="field-group">
+            <label for="confirmPassword" class="field-label">Confirmar senha</label>
+            <input type="password" class="field-input" id="confirmPassword" formControlName="confirmPassword"
+              placeholder="••••••••"
+              [class.is-invalid]="confirmPassword.touched && form.errors?.['passwordMismatch']" />
+            <div class="invalid-feedback" *ngIf="confirmPassword.touched && form.errors?.['passwordMismatch']">Senhas
+              diferentes.</div>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Criar conta</button>
+      </form>
+
+      <div class="auth-link">
+        Já tem conta? <a routerLink="/login">Entrar</a>
+      </div>
+    </div>
+  </div>
+
+</div>
