@@ -1,43 +1,124 @@
-<img class="bg-image" src="../../../assets/background.jpg" />
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 offset-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Emaines Chat</h3>
-                    <form ngDefaultControl="form">
-                        <div class="form-group">
-                            <label for="email">E-mail</label>
-                            <input
-                                type="email"
-                                class="form-control"
-                                id="email"
-                                [formControl]="email"
-                                name="email"
-                            />
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Senha</label>
-                            <input
-                                [formControl]="password"
-                                type="password"
-                                class="form-control"
-                                id="password"
-                                name="password"
-                            />
-                        </div>
-                        <button (click)="login($event)" class="btn btn-primary">
-                            Entrar
-                        </button>
-                        <div
-                            id="error-message"
-                            class="error-message"
-                            *ngIf="showErrorMessage">
-                            <span>Usuário ou senha incorretos</span>
-                        </div>
-                    </form>
-                </div>
-            </div>
+<div class="auth-wrapper">
+
+  <!-- Branding panel -->
+  <div class="brand-panel">
+    <div class="brand-content">
+
+      <div class="brand-logo">
+        <svg class="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="6" width="32" height="26" rx="7" fill="currentColor" opacity="0.18" />
+          <rect x="4" y="6" width="32" height="26" rx="7" stroke="currentColor" stroke-width="2" />
+          <path d="M12 42 L18 32 H22" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <circle cx="14" cy="19" r="2.5" fill="currentColor" />
+          <circle cx="20" cy="19" r="2.5" fill="currentColor" />
+          <circle cx="26" cy="19" r="2.5" fill="currentColor" />
+        </svg>
+        <span class="logo-name">Emaines<em>Chat</em></span>
+      </div>
+
+      <!-- Chat preview -->
+      <div class="chat-preview">
+        <div class="chat-preview__header">
+          <span class="chat-preview__status"></span>
+          <span class="chat-preview__room"># geral</span>
+          <span class="chat-preview__count">3 online</span>
         </div>
+
+        <div class="chat-preview__messages">
+
+          <div class="msg msg--in msg--1">
+            <div class="msg__avatar">A</div>
+            <div class="msg__body">
+              <span class="msg__author">Ana</span>
+              <div class="msg__bubble">Opaa Bão? 👋</div>
+            </div>
+          </div>
+
+          <div class="msg msg--in msg--2">
+            <div class="msg__avatar msg__avatar--c">C</div>
+            <div class="msg__body">
+              <span class="msg__author">Carlos</span>
+              <div class="msg__bubble">Opaa Bão e aí?</div>
+            </div>
+          </div>
+
+          <div class="msg msg--in msg--typing">
+            <div class="msg__avatar msg__avatar--v">V</div>
+            <div class="msg__bubble msg__bubble--typing">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+
+          <div class="msg msg--out msg--3">
+            <div class="msg__bubble msg__bubble--sent">Bão por aqui também, quanto tempo</div>
+          </div>
+
+          <div class="msg msg--in msg--4">
+            <div class="msg__avatar">A</div>
+            <div class="msg__body">
+              <span class="msg__author">Ana</span>
+              <div class="msg__bubble">Pois é 😄</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
+  </div>
+
+  <!-- Form panel -->
+  <div class="form-panel">
+    <div class="form-container">
+
+      <div class="mobile-logo">
+        <svg class="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="6" width="32" height="26" rx="7" fill="currentColor" opacity="0.18" />
+          <rect x="4" y="6" width="32" height="26" rx="7" stroke="currentColor" stroke-width="2" />
+          <circle cx="14" cy="19" r="2.5" fill="currentColor" />
+          <circle cx="20" cy="19" r="2.5" fill="currentColor" />
+          <circle cx="26" cy="19" r="2.5" fill="currentColor" />
+        </svg>
+        <span class="logo-name">Emaines<em>Chat</em></span>
+      </div>
+
+      <div class="form-header">
+        <h1 class="form-title">Bem-vindo de volta</h1>
+        <p class="form-subtitle">Entre na sua conta para continuar</p>
+      </div>
+
+      <form ngDefaultControl="form">
+        <div class="field-group">
+          <label for="email" class="field-label">E-mail</label>
+          <input type="email" class="field-input" id="email" [formControl]="email" name="email"
+            placeholder="seu@email.com" />
+        </div>
+
+        <div class="field-group">
+          <label for="password" class="field-label">Senha</label>
+          <input [formControl]="password" type="password" class="field-input" id="password" name="password"
+            placeholder="••••••••" />
+        </div>
+
+        <button (click)="login($event)" class="submit-btn">Entrar</button>
+
+        <div class="alert-error" *ngIf="showErrorMessage">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5" />
+            <path d="M8 5v3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            <circle cx="8" cy="11.5" r="0.75" fill="currentColor" />
+          </svg>
+          Usuário ou senha incorretos
+        </div>
+      </form>
+
+      <div class="auth-link">
+        Não tem conta? <a routerLink="/register">Criar conta</a>
+      </div>
+    </div>
+  </div>
+
 </div>

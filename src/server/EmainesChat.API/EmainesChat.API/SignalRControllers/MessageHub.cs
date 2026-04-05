@@ -20,17 +20,22 @@ public class MessageHub : Hub
         _logger = logger;
     }
 
-    public async Task CreateMessage(string content, int roomId)
+    public async Task CreateMessage(string content, string roomId)
     {
         var idClaim = Context.User?.FindFirst("Id");
-        if (idClaim is null || !int.TryParse(idClaim.Value, out var userId))
+        if (idClaim is null || !Guid.TryParse(idClaim.Value, out var userId))
         {
             _logger.LogWarning("Conexão {ConnectionId} com claim 'Id' ausente ou inválida.", Context.ConnectionId);
             await Clients.Caller.SendAsync("Error", "Token inválido: claim 'Id' ausente.");
             return;
         }
 
-        var result = await _sender.Send(new SendMessageCommand(content, userId, roomId));
+        if (!Guid.TryParse(roomId, out var roomGuid))
+        {
+            await Clients.Caller.SendAsync("Error", "RoomId inválido.");
+            return;
+        }
+        var result = await _sender.Send(new SendMessageCommand(content, userId, roomGuid));
         if (result.IsFailure)
         {
             _logger.LogWarning("Falha ao enviar mensagem do usuário {UserId} na sala {RoomId}: {Error}", userId, roomId, result.Error);
@@ -48,21 +53,21 @@ public class MessageHub : Hub
 
     // Disponível para uso futuro: permite entrar em um grupo sem buscar mensagens.
     // Atualmente a entrada no grupo ocorre implicitamente em GetMessagesByRoomId.
-    public async Task JoinRoom(int roomId)
+    public async Task JoinRoom(string roomId)
     {
         await Groups.AddToGroupAsync(Context.ConnectionId, $"room-{roomId}");
     }
 
-    public async Task LeaveRoom(int roomId)
+    public async Task LeaveRoom(string roomId)
     {
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"room-{roomId}");
     }
 
-    public async Task GetMessagesByRoomId(int roomId)
+    public async Task GetMessagesByRoomId(string roomId)
     {
-        if (roomId <= 0) return;
+        if (!Guid.TryParse(roomId, out var roomGuid)) return;
         await Groups.AddToGroupAsync(Context.ConnectionId, $"room-{roomId}");
-        var messages = await _sender.Send(new GetMessagesByRoomQuery(roomId));
+        var messages = await _sender.Send(new GetMessagesByRoomQuery(roomGuid));
         await Clients.Caller.SendAsync("ReceiveMessageByRoomId", messages);
     }
 

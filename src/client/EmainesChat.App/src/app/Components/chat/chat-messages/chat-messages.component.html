@@ -1,14 +1,35 @@
-<div class="container">
-    <ul class="messages">
-        <li #messagesList class="message" *ngFor="let message of Allmessages"
-            [ngClass]="{'sent-by-me': message.userName == currentUserName}">
-            <div class="sender-info">
-                <div class="send-by">{{message.userName}}</div>
-                <div class="send-at">{{message.sentAt | date:'dd/MM/yyyy HH:mm'}}</div>
-            </div>
-            <div class="message-content">
-                <p class="message-text">{{message.content}}</p>
-            </div>
+<div class="chat-wrapper">
+
+  <div class="chat-header">
+    <span class="chat-header__hash">#</span>
+    <span class="chat-header__name">{{ currentRoomName }}</span>
+  </div>
+
+  <div class="messages-container" #messagesContainer>
+    <div class="messages-inner">
+      <ul class="messages">
+        <li class="message" *ngFor="let message of Allmessages" [ngClass]="{
+            'message--sent':     message.userName === currentUserName,
+            'message--received': message.userName !== currentUserName
+          }">
+
+          <img *ngIf="message.userName !== currentUserName"
+            [src]="message.profilePictureUrl ?? 'assets/userPlaceholder.png'" class="msg-avatar"
+            alt="foto de {{message.userName}}" />
+
+          <div class="msg-content">
+            <span class="msg-author">{{ message.userName }}</span>
+            <div class="msg-bubble">{{ message.content }}</div>
+            <span class="msg-time">{{ message.sentAt | date:'dd/MM/yy HH:mm' }}</span>
+          </div>
+
+          <img *ngIf="message.userName === currentUserName"
+            [src]="message.profilePictureUrl ?? 'assets/userPlaceholder.png'" class="msg-avatar"
+            alt="foto de {{message.userName}}" />
+
         </li>
-    </ul>
+      </ul>
+    </div>
+  </div>
+
 </div>

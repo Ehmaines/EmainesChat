@@ -1,8 +1,9 @@
 export interface Message {
-  id?: number;
+  id?: string;
   content: string;
   sentAt: Date;
-  userId: number;
+  userId: string;
   userName: string;
-  roomId: number;
+  roomId: string;
+  profilePictureUrl?: string | null;
 }

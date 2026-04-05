@@ -14,6 +14,9 @@ import { HomeComponent } from './Components/home/home.component';
 import { LoginModule } from './Components/login/login.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthModule } from './core/authentication/auth.module';
+import { ProfileComponent } from './Components/profile/profile.component';
+import { RegisterComponent } from './Components/register/register.component';
+import { LobbyComponent } from './Components/lobby/lobby.component';
 
 
 @NgModule({
@@ -24,6 +27,9 @@ import { AuthModule } from './core/authentication/auth.module';
         ChatMessagesComponent,
         ChatBarComponent,
         HomeComponent,
+        ProfileComponent,
+        RegisterComponent,
+        LobbyComponent,
     ],
     imports: [
         ReactiveFormsModule,

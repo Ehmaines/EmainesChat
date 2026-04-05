@@ -7,6 +7,6 @@ public class GetMessagesByRoomQueryValidator : AbstractValidator<GetMessagesByRo
     public GetMessagesByRoomQueryValidator()
     {
         RuleFor(x => x.RoomId)
-            .GreaterThan(0).WithMessage("RoomId deve ser maior que zero.");
+            .NotEmpty().WithMessage("RoomId não pode ser vazio.");
     }
 }

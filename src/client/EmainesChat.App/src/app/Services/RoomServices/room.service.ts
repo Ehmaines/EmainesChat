@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class RoomService {
   private readonly apiUrl = `${environment.apiUrl}/`;
-  private roomIdSource = new BehaviorSubject<number>(4); // Valor padrão
+  private roomIdSource = new BehaviorSubject<string>('');
   roomId$ = this.roomIdSource.asObservable();
 
   constructor(private http: AngularHttpClient) { }
@@ -17,11 +17,15 @@ export class RoomService {
     return this.http.get<Room[]>(this.apiUrl + 'Room');
   }
 
-  getRoomById(roomId: number){
+  getRoomById(roomId: string){
     return this.http.get<Room>(this.apiUrl + `Room/${roomId}`);
   }
-  
-  changeRoom(roomId: number) {
+
+  createRoom(name: string) {
+    return this.http.post<Room>(this.apiUrl + 'Room', { name });
+  }
+
+  changeRoom(roomId: string) {
     this.roomIdSource.next(roomId);
   }
 }

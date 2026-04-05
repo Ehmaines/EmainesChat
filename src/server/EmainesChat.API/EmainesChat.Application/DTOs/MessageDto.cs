@@ -2,8 +2,8 @@ using EmainesChat.Domain.Aggregates.Messages;
 
 namespace EmainesChat.Application.DTOs;
 
-public record MessageDto(int Id, string Content, DateTime SentAt, int UserId, string UserName, int RoomId)
+public record MessageDto(Guid Id, string Content, DateTime SentAt, Guid UserId, string UserName, Guid RoomId, string? ProfilePictureUrl)
 {
     public static MessageDto From(Message message) =>
-        new(message.Id, message.Content.Value, message.SentAt, message.UserId, message.User.UserName, message.RoomId);
+        new(message.Id, message.Content.Value, message.SentAt, message.UserId, message.User.UserName, message.RoomId, message.User.ProfilePictureUrl);
 }

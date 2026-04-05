@@ -4,4 +4,4 @@ using MediatR;
 
 namespace EmainesChat.Application.Messages.Commands.SendMessage;
 
-public record SendMessageCommand(string Content, int UserId, int RoomId) : IRequest<Result<MessageDto>>;
+public record SendMessageCommand(string Content, Guid UserId, Guid RoomId) : IRequest<Result<MessageDto>>;

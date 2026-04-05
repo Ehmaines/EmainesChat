@@ -25,8 +25,8 @@ public class RoomController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetRoomById(int id)
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetRoomById(Guid id)
     {
         var result = await _sender.Send(new GetRoomByIdQuery(id));
         return result.IsSuccess ? Ok(result.Value) : NotFound(new { message = result.Error });
@@ -46,8 +46,8 @@ public class RoomController : ControllerBase
         return result.IsSuccess ? Ok(result.Value) : BadRequest(new { message = result.Error });
     }
 
-    [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateRoom(int id, [FromBody] UpdateRoomCommand command)
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateRoom(Guid id, [FromBody] UpdateRoomCommand command)
     {
         var result = await _sender.Send(command with { Id = id });
         return result.IsSuccess ? Ok(result.Value) : BadRequest(new { message = result.Error });

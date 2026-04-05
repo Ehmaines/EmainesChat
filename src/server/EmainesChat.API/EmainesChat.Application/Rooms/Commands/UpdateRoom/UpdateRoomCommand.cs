@@ -4,4 +4,4 @@ using MediatR;
 
 namespace EmainesChat.Application.Rooms.Commands.UpdateRoom;
 
-public record UpdateRoomCommand(int Id, string Name) : IRequest<Result<RoomDto>>;
+public record UpdateRoomCommand(Guid Id, string Name) : IRequest<Result<RoomDto>>;

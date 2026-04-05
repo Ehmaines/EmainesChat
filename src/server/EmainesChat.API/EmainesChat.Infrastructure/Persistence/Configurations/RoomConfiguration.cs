@@ -10,6 +10,9 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
     {
         builder.HasKey(r => r.Id);
 
+        builder.Property(r => r.Id)
+            .ValueGeneratedNever();
+
         builder.OwnsOne(r => r.Name, n =>
         {
             n.Property(x => x.Value)

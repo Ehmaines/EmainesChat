@@ -37,7 +37,11 @@ export class AuthTokenService {
     }
 
     public get role(): Roles {
-        return +this.token.role;
+        const r = this.token.role;
+        if (typeof r === 'string' && isNaN(+r)) {
+            return Roles[r as keyof typeof Roles] ?? Roles.None;
+        }
+        return +r;
     }
 
     public generateToken(value: any): void {
@@ -70,5 +74,10 @@ export class AuthTokenService {
         const expires = new Date();
         expires.setTime(expires.getTime() + (8 * 60 * 60 * 1000)); //expira o cookie em 8 horas
         this.cookieService.set('Authorization', this.authToken, expires)
+    }
+
+    public removeToken(): void {
+        this.cookieService.delete('Authorization');
+        this.resetToken();
     }
 }

@@ -18,7 +18,7 @@ export class ChatMessagesService {
     private connectionPromise!: Promise<void>;
     public messages: Message[] = [];
     private isConnectionEstablished = false;
-    private currentRoomId: number | null = null;
+    private currentRoomId: string | null = null;
     private readonly apiUrl = `${environment.apiUrl}/`;
 
     private messagesSubject: SubjectRxjs<Message[]> = new SubjectRxjs<
@@ -114,7 +114,7 @@ export class ChatMessagesService {
         }
     }
 
-    async getMessagesByRoomIdInSignalR(roomId: number): Promise<void> {
+    async getMessagesByRoomIdInSignalR(roomId: string): Promise<void> {
         if (!this.isConnectionEstablished) return;
         if (this.currentRoomId !== null && this.currentRoomId !== roomId) {
             await this.hubConnection.invoke('LeaveRoom', this.currentRoomId)
@@ -129,7 +129,7 @@ export class ChatMessagesService {
         return this.http.get<Message[]>(this.apiUrl + 'message');
     }
 
-    getMessagesByRoom(roomId: Number) {
+    getMessagesByRoom(roomId: string) {
         console.log(`procurando mensagens pela sala ${roomId}`)
         return this.http.get<Message[]>(this.apiUrl + `message/${roomId}`);
     }
@@ -140,5 +140,17 @@ export class ChatMessagesService {
 
     getSignalRConnection(): HubConnection {
         return this.hubConnection;
+    }
+
+    async stopConnection(): Promise<void> {
+        if (this.hubConnection && this.hubConnection.state !== HubConnectionState.Disconnected) {
+            await this.hubConnection.stop();
+        }
+        this.isConnectionEstablished = false;
+        this.currentRoomId = null;
+    }
+
+    startConnection(): void {
+        this.initializeSignalRConnection();
     }
 }

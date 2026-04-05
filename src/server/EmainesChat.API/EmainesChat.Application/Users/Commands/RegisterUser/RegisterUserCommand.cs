@@ -4,4 +4,4 @@ using MediatR;
 
 namespace EmainesChat.Application.Users.Commands.RegisterUser;
 
-public record RegisterUserCommand(string UserName, string Email, string Password) : IRequest<Result<UserDto>>;
+public record RegisterUserCommand(string UserName, string? Name, string Email, string Password) : IRequest<Result<UserDto>>;

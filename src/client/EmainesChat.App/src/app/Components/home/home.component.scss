@@ -1,37 +1,33 @@
-@import '../../styles/variables.scss';
-
 .main-page {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+
+  ehm-rooms-side-bar {
+    width: 220px;
+    flex-shrink: 0;
+  }
+
+  ehm-chat {
+    flex: 1;
     display: flex;
-    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
 
     ehm-rooms-side-bar {
-        width: 20%;
-        background-color: $primary-color;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        max-width: 200px;
+      width: 100%;
+      height: 200px;
+      flex-shrink: 0;
     }
 
     ehm-chat {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
+      flex: 1;
+      min-height: 0;
     }
-
-    // Regras de mídia para telas menores
-    @media (max-width: 768px) {
-        flex-direction: column-reverse;
-
-        .side-bar-rooms {
-            width: 100%;
-            min-height: 200px;
-        }
-
-        .main-chat {
-            flex-grow: 1;
-            min-height: 400px;
-        }
-    }
+  }
 }

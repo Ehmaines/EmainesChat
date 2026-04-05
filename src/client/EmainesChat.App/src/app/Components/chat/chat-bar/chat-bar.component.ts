@@ -14,7 +14,7 @@ import { AuthTokenService } from 'src/app/core/authentication/auth-token.service
 export class ChatBarComponent implements OnInit {
     content: string = '';
     message = new FormControl('');
-    roomId: number = 0;
+    roomId: string = '';
 
     constructor(
         private chatMessageService: ChatMessagesService,
@@ -35,17 +35,18 @@ export class ChatBarComponent implements OnInit {
         const messageToSend: Message = {
             content: this.content,
             sentAt: new Date(),
-            userId: 0,
+            userId: '',
             userName: this.authTokenService.token.name,
             roomId: this.roomId,
         };
+        console.log(messageToSend)
         this.chatMessageService.sendMessage(messageToSend);
         this.message.setValue('');
     }
 
     getActualRoom() {
         this.route.params.subscribe((params) => {
-            this.roomId = parseInt(params['id']);
+            this.roomId = params['id'];
         });
     }
 }

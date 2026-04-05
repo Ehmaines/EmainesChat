@@ -1,34 +1,77 @@
-@import "../../../styles/variables.scss";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 
-.writing-bar {
-    width: 100%;
-    flex-grow: 1;
-    padding: 5px;
-    border-radius: 5px;
+$accent:    #4caf50;
+$text-dark: #1a2332;
+$border:    #e2e8f0;
 
-    form {
-        display: flex;
-        align-items: center;
-        flex-grow: 1;
-        padding: 5px;
+:host {
+  display: block;
+  flex-shrink: 0;
+}
 
-        .writing-text {
-            box-shadow: 1px 2px 3px rgb(87, 102, 91);
-            width: 100%;
-            padding: 5px;
-            border: 1px solid $border-color;
-            border-radius: 5px;
-        }
+.chat-bar {
+  padding: 0.75rem 1.5rem 1rem;
+  background: #ffffff;
+  border-top: 1px solid $border;
+}
 
-        .send-message {
-            padding: 5px 10px;
-            box-shadow: 1px 2px 3px rgb(87, 102, 91);
-            margin-left: 10px;
-            background-color: $button-color;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    }
+.chat-form {
+  max-width: clamp(780px, 41vw, 1400px);
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f8fafc;
+  border: 1.5px solid $border;
+  border-radius: 12px;
+  padding: 0.35rem 0.35rem 0.35rem 1rem;
+  transition: border-color 0.2s ease;
+
+  &:focus-within {
+    border-color: $accent;
+    background: #ffffff;
+  }
+}
+
+.chat-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  color: $text-dark;
+  outline: none;
+  padding: 0.45rem 0;
+  min-width: 0;
+
+  &::placeholder {
+    color: #aab4c4;
+  }
+}
+
+.send-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  background: $accent;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+
+  &:hover {
+    background: darken(#4caf50, 8%);
+    transform: scale(1.06);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.35);
+  }
+
+  &:active {
+    transform: scale(0.97);
+    box-shadow: none;
+  }
 }

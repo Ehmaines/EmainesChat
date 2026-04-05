@@ -5,7 +5,7 @@ namespace EmainesChat.Domain.Aggregates.Rooms;
 
 public class Room
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; }
     public RoomName Name { get; private set; } = null!;
     public DateTime CreatedAt { get; private set; }
 
@@ -19,6 +19,7 @@ public class Room
 
         return Result.Success(new Room
         {
+            Id = Guid.NewGuid(),
             Name = nameResult.Value,
             CreatedAt = DateTime.UtcNow
         });

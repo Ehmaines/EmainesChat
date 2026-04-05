@@ -10,9 +10,15 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.HasKey(u => u.Id);
 
+        builder.Property(u => u.Id)
+            .ValueGeneratedNever();
+
         builder.Property(u => u.UserName)
             .IsRequired()
             .HasMaxLength(100);
+
+        builder.HasIndex(u => u.UserName)
+            .IsUnique();
 
         builder.OwnsOne(u => u.Email, e =>
         {
@@ -28,6 +34,16 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 .HasColumnName("PasswordHash")
                 .IsRequired();
         });
+
+        builder.OwnsOne(u => u.Name, n =>
+        {
+            n.Property(x => x.Value)
+                .HasColumnName("Name")
+                .HasMaxLength(100);
+        });
+
+        builder.Property(u => u.ProfilePictureUrl)
+            .HasMaxLength(2048);
 
         builder.Property(u => u.Role)
             .IsRequired();
