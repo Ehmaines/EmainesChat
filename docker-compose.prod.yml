@@ -20,7 +20,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       ConnectionStrings__Default: "${DB_CONNECTION_STRING}"
       Jwt__Secret: "${JWT_SECRET}"
-      Cors__AllowedOrigins__0: "https://eduardomaines.com"
+      Cors__AllowedOrigins__0: "https://chat.eduardomaines.com"
     volumes:
       - pictures_data:/app/wwwroot/pictures
     depends_on:
