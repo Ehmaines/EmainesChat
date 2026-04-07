@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,14 @@ public static class DependencyInjection
     {
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
 
+        services.AddMemoryCache();
+        services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
+        services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+        services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+        services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+        services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+        services.AddInMemoryRateLimiting();
+
         services.AddSignalR();
         services.AddControllers();
         services.AddEndpointsApiExplorer();
@@ -22,6 +31,9 @@ public static class DependencyInjection
 
         var jwtSecret = configuration["Jwt:Secret"]
             ?? throw new InvalidOperationException("JWT secret não configurado em 'Jwt:Secret'.");
+
+        if (jwtSecret.Length < 32)
+            throw new InvalidOperationException("Jwt:Secret deve ter no mínimo 32 caracteres.");
 
         var key = Encoding.ASCII.GetBytes(jwtSecret);
 

@@ -1,23 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
 
-$dark:        #0d1117;
-$dark-surface:#161b22;
-$dark-border: rgba(255, 255, 255, 0.07);
+$page-bg:     #f8fafc;
+$surface:     #ffffff;
+$border:      #e2e8f0;
 $accent:      #4caf50;
-$accent-dim:  rgba(76, 175, 80, 0.15);
-$text-light:  rgba(255, 255, 255, 0.88);
-$text-muted:  rgba(255, 255, 255, 0.42);
+$accent-dim:  rgba(76, 175, 80, 0.12);
+$text-dark:   #1a2332;
+$text-muted:  #94a3b8;
 
 :host {
   display: block;
   min-height: 100vh;
-  background: $dark;
+  background: $page-bg;
   font-family: 'DM Sans', sans-serif;
-  color: $text-light;
-
-  // Dot-grid texture
-  background-image: radial-gradient(rgba(76, 175, 80, 0.06) 1px, transparent 1px);
-  background-size: 24px 24px;
+  color: $text-dark;
 }
 
 // ── Top bar ─────────────────────────────────────────────────
@@ -27,9 +23,8 @@ $text-muted:  rgba(255, 255, 255, 0.42);
   justify-content: space-between;
   padding: 0 2rem;
   height: 60px;
-  background: rgba(13, 17, 23, 0.92);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid $dark-border;
+  background: $surface;
+  border-bottom: 1px solid $border;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -53,13 +48,13 @@ $text-muted:  rgba(255, 255, 255, 0.42);
   align-items: center;
   gap: 0.55rem;
   text-decoration: none;
-  color: $text-light;
+  color: $text-dark;
   padding: 0.35rem 0.6rem;
   border-radius: 8px;
   transition: background 0.15s;
 
   &:hover {
-    background: $dark-surface;
+    background: $page-bg;
   }
 }
 
@@ -89,8 +84,8 @@ $text-muted:  rgba(255, 255, 255, 0.42);
   transition: color 0.15s, background 0.15s;
 
   &:hover {
-    color: #f87171;
-    background: rgba(248, 113, 113, 0.1);
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
   }
 }
 
@@ -110,7 +105,7 @@ $text-muted:  rgba(255, 255, 255, 0.42);
     font-weight: 700;
     line-height: 1.2;
     margin: 0 0 0.4rem;
-    color: $text-light;
+    color: $text-dark;
   }
 
   .name-accent {
@@ -121,6 +116,27 @@ $text-muted:  rgba(255, 255, 255, 0.42);
     font-size: 1rem;
     color: $text-muted;
     margin: 0;
+  }
+}
+
+// ── Security notice ──────────────────────────────────────────
+.security-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+  color: #92400e;
+  line-height: 1.5;
+
+  svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: #d97706;
   }
 }
 
@@ -157,15 +173,15 @@ $text-muted:  rgba(255, 255, 255, 0.42);
   font-family: inherit;
 
   &:hover {
-    background: rgba(76, 175, 80, 0.25);
+    background: rgba(76, 175, 80, 0.2);
     border-color: rgba(76, 175, 80, 0.5);
   }
 }
 
 // ── Create room form ─────────────────────────────────────────
 .create-room-form {
-  background: $dark-surface;
-  border: 1px solid $dark-border;
+  background: $surface;
+  border: 1px solid $border;
   border-radius: 10px;
   padding: 1rem 1.25rem;
   margin-bottom: 1.25rem;
@@ -175,10 +191,10 @@ $text-muted:  rgba(255, 255, 255, 0.42);
 }
 
 .room-name-input {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: $page-bg;
+  border: 1.5px solid $border;
   border-radius: 8px;
-  color: $text-light;
+  color: $text-dark;
   font-family: inherit;
   font-size: 0.9rem;
   padding: 0.55rem 0.85rem;
@@ -190,8 +206,9 @@ $text-muted:  rgba(255, 255, 255, 0.42);
   }
 
   &:focus {
-    border-color: rgba(76, 175, 80, 0.5);
+    border-color: $accent;
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+    background: $surface;
   }
 }
 
@@ -224,7 +241,7 @@ $text-muted:  rgba(255, 255, 255, 0.42);
 
 .btn-cancel {
   background: none;
-  border: 1px solid $dark-border;
+  border: 1px solid $border;
   color: $text-muted;
   font-family: inherit;
   font-size: 0.85rem;
@@ -235,14 +252,14 @@ $text-muted:  rgba(255, 255, 255, 0.42);
   transition: color 0.15s, border-color 0.15s;
 
   &:hover {
-    color: $text-light;
-    border-color: rgba(255, 255, 255, 0.2);
+    color: $text-dark;
+    border-color: #cbd5e1;
   }
 }
 
 .create-error {
   font-size: 0.8rem;
-  color: #f87171;
+  color: #ef4444;
 }
 
 // ── Room cards grid ──────────────────────────────────────────
@@ -253,20 +270,20 @@ $text-muted:  rgba(255, 255, 255, 0.42);
 }
 
 .room-card {
-  background: $dark-surface;
-  border: 1px solid $dark-border;
+  background: $surface;
+  border: 1px solid $border;
   border-radius: 12px;
   padding: 1.25rem 1.25rem 1rem;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
   position: relative;
 
   &:hover {
-    border-color: rgba(76, 175, 80, 0.35);
-    background: rgba(22, 27, 34, 0.9);
+    border-color: rgba(76, 175, 80, 0.4);
+    box-shadow: 0 4px 16px rgba(76, 175, 80, 0.1);
     transform: translateY(-2px);
 
     .btn-enter {
@@ -287,7 +304,7 @@ $text-muted:  rgba(255, 255, 255, 0.42);
 .room-name {
   font-size: 0.95rem;
   font-weight: 600;
-  color: $text-light;
+  color: $text-dark;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
