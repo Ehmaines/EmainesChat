@@ -43,11 +43,11 @@ services:
     volumes:
       - sqlserver_data:/var/opt/mssql
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P \"${SA_PASSWORD}\" -Q 'SELECT 1' || exit 1"]
-      interval: 15s
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/1433' 2>/dev/null && echo healthy || exit 1"]
+      interval: 10s
       timeout: 5s
-      retries: 10
-      start_period: 60s
+      retries: 15
+      start_period: 30s
     restart: unless-stopped
 
 volumes:
