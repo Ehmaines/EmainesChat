@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [master, "features/**"]
+  pull_request:
+    branches: [master]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "6.0.x"
+      - name: Build
+        working-directory: src/server/EmainesChat.API
+        run: dotnet build --configuration Release
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: src/client/EmainesChat.App/package-lock.json
+      - name: Install
+        working-directory: src/client/EmainesChat.App
+        run: npm ci
+      - name: Build
+        working-directory: src/client/EmainesChat.App
+        run: npm run build -- --configuration production
+      - name: Test
+        working-directory: src/client/EmainesChat.App
+        run: npm test -- --watch=false --browsers=ChromeHeadless

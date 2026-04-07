@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.emaineschat.com'
+  apiUrl: 'https://api.chat.eduardomaines.com'
 };
